@@ -1,48 +1,52 @@
 <!doctype html>
 <html lang="zh-Hant">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>你的名字 ⌿ Portfolio</title>
+  <title>Jung Kang ⌿ Portfolio</title>
 
-  <!-- 字體：極簡 + 等寬資訊感 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
 
   <style>
-    :root{
+    :root {
       --bg: #07080b;
-      --fg: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
-      --faint: rgba(255,255,255,.35);
-      --line: rgba(255,255,255,.12);
+      --fg: rgba(255, 255, 255, .92);
+      --muted: rgba(255, 255, 255, .62);
+      --faint: rgba(255, 255, 255, .35);
+      --line: rgba(255, 255, 255, .12);
       --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
       --radius: 16px;
     }
 
-    html, body { height: 100%; }
-    body{
-      margin:0;
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
       background: var(--bg);
       color: var(--fg);
       font-family: var(--sans);
       overflow-x: hidden;
     }
 
-    /* 背景 WebGL */
-    #bg{
+    #bg {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
-      display:block;
+      display: block;
     }
 
-    /* 細噪點覆蓋（讓畫面更「有質感」） */
-    .noise{
+    .noise {
       pointer-events: none;
       position: fixed;
       inset: 0;
@@ -53,15 +57,13 @@
       mix-blend-mode: overlay;
     }
 
-    /* 主要內容層 */
-    .ui{
+    .ui {
       position: relative;
       z-index: 2;
       min-height: 100vh;
     }
 
-    /* 頂部狀態列 */
-    .topbar{
+    .topbar {
       position: fixed;
       top: 0;
       left: 0;
@@ -73,79 +75,95 @@
       padding: 16px 20px;
       align-items: center;
       backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(7,8,11,.72), rgba(7,8,11,.22), rgba(7,8,11,0));
+      background: linear-gradient(to bottom, rgba(7, 8, 11, .72), rgba(7, 8, 11, .22), rgba(7, 8, 11, 0));
     }
-    .topbar .left, .topbar .right{
-      display:flex;
+
+    .topbar .left,
+    .topbar .right {
+      display: flex;
       gap: 18px;
-      align-items:center;
+      align-items: center;
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
       letter-spacing: .02em;
       white-space: nowrap;
     }
-    .topbar .center{
-      display:flex;
+
+    .topbar .center {
+      display: flex;
       gap: 10px;
-      align-items:center;
-      justify-content:center;
+      align-items: center;
+      justify-content: center;
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
     }
-    .pill{
+
+    .pill {
       border: 1px solid var(--line);
       padding: 7px 10px;
       border-radius: 999px;
-      display:inline-flex;
+      display: inline-flex;
       gap: 8px;
-      align-items:center;
-      background: rgba(255,255,255,.02);
+      align-items: center;
+      background: rgba(255, 255, 255, .02);
     }
-    .dot{
-      width:6px;height:6px;border-radius:50%;
-      background: rgba(255,255,255,.7);
-      box-shadow: 0 0 10px rgba(255,255,255,.25);
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .7);
+      box-shadow: 0 0 10px rgba(255, 255, 255, .25);
     }
-    .link{
+
+    .link {
       color: var(--fg);
       text-decoration: none;
       opacity: .92;
     }
-    .link:hover{ opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
 
-    .cta{
+    .link:hover {
+      opacity: 1;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .cta {
       justify-content: flex-end;
       gap: 10px;
     }
-    button{
+
+    button {
       font-family: var(--mono);
       font-size: 12px;
       color: var(--fg);
-      background: rgba(255,255,255,.03);
+      background: rgba(255, 255, 255, .03);
       border: 1px solid var(--line);
       border-radius: 999px;
       padding: 10px 12px;
-      cursor:pointer;
+      cursor: pointer;
     }
-    button:hover{ background: rgba(255,255,255,.06); }
 
-    /* 版心 */
-    .wrap{
+    button:hover {
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .wrap {
       max-width: 1080px;
       margin: 0 auto;
       padding: 120px 20px 80px;
     }
 
-    /* Hero */
-    .hero{
-      display:grid;
+    .hero {
+      display: grid;
       grid-template-columns: 1.2fr .8fr;
       gap: 40px;
-      align-items:start;
+      align-items: start;
     }
-    .kicker{
+
+    .kicker {
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
@@ -153,119 +171,134 @@
       text-transform: uppercase;
       margin-bottom: 14px;
     }
-    h1{
+
+    h1 {
       margin: 0;
       font-size: clamp(38px, 5.2vw, 76px);
       line-height: 0.98;
       letter-spacing: -0.03em;
       font-weight: 600;
     }
-    .hero p{
+
+    .hero p {
       margin-top: 18px;
       color: var(--muted);
       font-size: 16px;
       line-height: 1.6;
       max-width: 54ch;
     }
-    .heroCard{
+
+    .heroCard {
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 18px;
-      background: rgba(255,255,255,.02);
+      background: rgba(255, 255, 255, .02);
     }
-    .heroCard .row{
-      display:flex;
+
+    .heroCard .row {
+      display: flex;
       justify-content: space-between;
       gap: 12px;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,.07);
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
     }
-    .heroCard .row:last-child{ border-bottom: none; }
-    .tagline{
+
+    .heroCard .row:last-child {
+      border-bottom: none;
+    }
+
+    .tagline {
       font-family: var(--mono);
       color: var(--faint);
       font-size: 12px;
       margin-top: 10px;
     }
 
-    /* 區塊 */
-    section{
+    section {
       padding: 72px 0 0;
     }
-    .secHead{
-      display:flex;
+
+    .secHead {
+      display: flex;
       justify-content: space-between;
       gap: 18px;
       align-items: baseline;
-      border-top: 1px solid rgba(255,255,255,.10);
+      border-top: 1px solid rgba(255, 255, 255, .10);
       padding-top: 18px;
       margin-top: 26px;
     }
-    .secHead h2{
-      margin:0;
+
+    .secHead h2 {
+      margin: 0;
       font-size: 22px;
       letter-spacing: -0.01em;
     }
-    .secHead .hint{
+
+    .secHead .hint {
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
     }
 
-    /* 作品卡 */
-    .grid{
+    .grid {
       margin-top: 18px;
-      display:grid;
+      display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 14px;
     }
-    .card{
+
+    .card {
       grid-column: span 6;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 16px;
-      background: rgba(255,255,255,.02);
+      background: rgba(255, 255, 255, .02);
       transition: transform .18s ease, background .18s ease;
     }
-    .card:hover{ transform: translateY(-2px); background: rgba(255,255,255,.035); }
-    .card .meta{
+
+    .card:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .card .meta {
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
-      display:flex;
+      display: flex;
       justify-content: space-between;
       gap: 10px;
     }
-    .card h3{
+
+    .card h3 {
       margin: 12px 0 8px;
       font-size: 18px;
     }
-    .card p{
-      margin:0;
+
+    .card p {
+      margin: 0;
       color: var(--muted);
       line-height: 1.6;
       font-size: 14px;
     }
 
-    /* Footer */
-    footer{
+    footer {
       margin-top: 90px;
       padding: 28px 0;
-      border-top: 1px solid rgba(255,255,255,.10);
+      border-top: 1px solid rgba(255, 255, 255, .10);
       color: var(--muted);
       font-family: var(--mono);
       font-size: 12px;
-      display:flex;
+      display: flex;
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
     }
 
-    /* Copied toast */
-    .toast{
+    .toast {
       position: fixed;
       top: 70px;
       left: 50%;
@@ -274,7 +307,7 @@
       padding: 10px 12px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(10,12,16,.72);
+      background: rgba(10, 12, 16, .72);
       backdrop-filter: blur(10px);
       font-family: var(--mono);
       font-size: 12px;
@@ -283,59 +316,84 @@
       pointer-events: none;
       transition: opacity .18s ease, transform .18s ease;
     }
-    .toast.show{
+
+    .toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
 
-    /* Reel modal */
-    .modal{
+    .modal {
       position: fixed;
       inset: 0;
       z-index: 10;
-      display:none;
+      display: none;
       place-items: center;
-      background: rgba(0,0,0,.55);
+      background: rgba(0, 0, 0, .55);
       backdrop-filter: blur(10px);
       padding: 20px;
     }
-    .modal.open{ display:grid; }
-    .modal .panel{
+
+    .modal.open {
+      display: grid;
+    }
+
+    .modal .panel {
       width: min(980px, 100%);
       border: 1px solid var(--line);
       border-radius: 22px;
-      background: rgba(8,9,12,.86);
+      background: rgba(8, 9, 12, .86);
       overflow: hidden;
     }
-    .modal .panelHead{
-      display:flex;
+
+    .modal .panelHead {
+      display: flex;
       justify-content: space-between;
-      align-items:center;
+      align-items: center;
       padding: 14px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
+      border-bottom: 1px solid rgba(255, 255, 255, .10);
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
     }
-    .modal video{
+
+    .modal video {
       width: 100%;
       height: auto;
-      display:block;
+      display: block;
       background: #000;
     }
 
-    /* RWD */
-    @media (max-width: 900px){
-      .hero{ grid-template-columns: 1fr; }
-      .card{ grid-column: span 12; }
-      .topbar{ grid-template-columns: 1fr; }
-      .topbar .center{ justify-content:flex-start; }
-      .topbar .right{ justify-content:flex-start; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        grid-column: span 12;
+      }
+
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar .center {
+        justify-content: flex-start;
+      }
+
+      .topbar .right {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
     }
 
-    @media (prefers-reduced-motion: reduce){
-      .card{ transition: none; }
-      .noise{ display:none; }
+    @media (prefers-reduced-motion: reduce) {
+      .card {
+        transition: none;
+      }
+
+      .noise {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -352,8 +410,6 @@
         <span>REEL ■</span>
         <button id="closeReel" type="button">Close</button>
       </div>
-
-      <!-- 你可換成自己的 mp4；或改用 YouTube iframe -->
       <video id="reelVideo" controls preload="metadata">
         <source src="" type="video/mp4" />
       </video>
@@ -370,7 +426,7 @@
 
     <div class="center">
       <span id="copyHint" style="display:none;">Copied!</span>
-      <a class="link pill" href="#" id="copyEmail">your@email.com</a>
+      <a class="link pill" href="#" id="copyEmail">jungkang0911@gmail.com</a>
     </div>
 
     <div class="right cta">
@@ -385,25 +441,27 @@
     <div class="wrap">
       <div class="hero">
         <div>
-          <div class="kicker">FULL-STACK / CLOUD / AI</div>
+          <div class="kicker">FULL-STACK WEB / .NET / ANGULAR / WEB API</div>
+
           <h1>
-            我把複雜系統<br />
-            做成可維護、可擴充<br />
-            的產品級體驗。
+            做出產品級 Web 系統<br />
+            前後端一體落地<br />
+            速度、品質、可擴充
           </h1>
           <p>
-            這裡放你的一句「定位宣言」：例如你是 C# / Angular / DevOps / AI 方向，
-            擅長把需求拆解、把系統做穩、把體驗做順。
+            善長是 Web 全端與 iOS 開發（.NET / Angular）。<br />
+            近逐漸把重心放在流程自動化與平台化能力，<br />
+            目前專注用 n8n 探索 AI 在實際系統中的落地方式。
           </p>
-          <p class="tagline">MADE WITH LOVE ❥ / NO BLOAT / HIGH IMPACT</p>
+          <p class="tagline">WEB-FIRST / WORKFLOW AUTOMATION / AI INTEGRATION</p>
         </div>
 
         <aside class="heroCard">
-          <div class="row"><span>ROLE</span><span>Software Engineer</span></div>
-          <div class="row"><span>STACK</span><span>C# / Angular / SQL</span></div>
-          <div class="row"><span>FOCUS</span><span>Perf / Observability</span></div>
-          <div class="row"><span>NOW</span><span>Building & shipping</span></div>
-          <div class="row"><span>CONTACT</span><span>your@email.com</span></div>
+          <div class="row"><span>ROLE</span><span>Full-stack Web Developer · Technical PM/TPM</span></div>
+          <div class="row"><span>STACK</span><span>C# / .NET / ASP.NET / Angular / REST API / Kong / n8n</span></div>
+          <div class="row"><span>HIGHLIGHTS</span><span>CI/CD 自動化部署 · K8s 擴縮與資源治理 · 高併發場景壓測優化</span></div>
+          <div class="row"><span>FOCUS</span><span>Web 平台 · Web API · 流程自動化</span></div>
+          <div class="row"><span>CONTACT</span><span>jungkang0911@gmail.com</span></div>
         </aside>
       </div>
 
@@ -412,9 +470,10 @@
           <h2>About</h2>
           <div class="hint">短、硬、可被記住</div>
         </div>
+
         <p style="color:var(--muted);line-height:1.75;max-width:70ch;margin-top:16px;">
-          用 4–6 句話寫清楚：你做過什麼、擅長什麼、你怎麼做事、你想找什麼樣的合作。
-          （風格：像宣言，不像履歷。）
+          我主軸是 Web 開發：把前端介面、後端 API、共用模組與部署流程串成一條可交付的鏈。
+          我重視工程化：命名規範、模組化、日誌/稽核、以及 DevOps 協作流程，讓團隊更好維護、更好擴充。
         </p>
       </section>
 
@@ -426,27 +485,46 @@
 
         <div class="grid">
           <article class="card">
-            <div class="meta"><span>2025</span><span>API / Observability</span></div>
-            <h3>Project A：高併發 API 改造</h3>
-            <p>一句講結果：p95 降低多少、成本省多少、穩定性提升多少（量化最好）。</p>
+            <div class="meta"><span>Web Platform</span><span>ASP.NET / Angular</span></div>
+            <h3>網站平台建置與維運：前後端整合</h3>
+            <p>
+              負責多項 Web 平台的開發與維運（ASP.NET MVC / API），涵蓋後端串接、介面優化，
+              並支援行銷活動與 SEO 整合。
+            </p>
           </article>
 
           <article class="card">
-            <div class="meta"><span>2025</span><span>OCR / AI</span></div>
-            <h3>Project B：證件 OCR 流程</h3>
-            <p>一句講難點：手寫/印章/難字；一句講方法：資料、規則、模型、驗證。</p>
+            <div class="meta"><span>Workflow Automation</span><span>n8n</span></div>
+            <h3>n8n 流程中台：以工作流 + API 串接取代 RPA</h3>
+            <img src="images/n8n-flow.jpg" alt="OCR 欄位定位示意圖" loading="lazy"
+              style="width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.12);margin:12px 0;" />
+            <p>
+              主導以 n8n 建置流程中台，將多數自動化從「RPA 點擊操作」轉為「工作流編排 + API/服務串接」；
+              RPA 僅保留在少數不得不靠 UI 的環節，並加入重試與告警。
+            </p>
           </article>
 
           <article class="card">
-            <div class="meta"><span>2024</span><span>DevOps</span></div>
-            <h3>Project C：CI/CD 與監控</h3>
-            <p>一句講你建立的機制：部署、回滾、風險檢查、自動化報表。</p>
+            <div class="meta"><span>Web API</span><span>Performance</span></div>
+            <h3>CI/CD × K8s：高併發處理與穩定性治理</h3>
+              <img src="images/tls-sre.png" alt="OCR 欄位定位示意圖" loading="lazy"
+              style="width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.12);margin:12px 0;" />
+            <p>
+              建立與優化 CI/CD 上線流程，讓部署可重複、可回復；
+              在 Kubernetes 上規劃資源配額（Requests/Limits）、擴縮策略（HPA）與隔離設計（如 API Gateway/分流），
+              搭配壓測驗證尖峰情境、定位瓶頸並持續優化系統承載能力。
+            </p>
           </article>
 
           <article class="card">
-            <div class="meta"><span>2024</span><span>Frontend</span></div>
-            <h3>Project D：互動式 Dashboard</h3>
-            <p>一句講體驗：資訊密度、速度、可讀性；一句講技術：圖表/快取/查詢優化。</p>
+            <div class="meta"><span>Document AI</span><span>OCR + YOLOv8</span></div>
+            <h3>地端 OCR Pipeline：欄位定位到結構化輸出</h3>
+            <img src="images/idcard-demo.png" alt="OCR 欄位定位示意圖" loading="lazy"
+              style="width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.12);margin:12px 0;" />
+            <p>
+              建置文件處理 Pipeline（前處理→欄位定位/裁切→辨識→後處理），並採混合 OCR 路由策略；
+              約 5,000 份樣本統計整體辨識率 >98%，雲端路徑先做個資遮罩以符合合規。
+            </p>
           </article>
         </div>
       </section>
@@ -454,43 +532,36 @@
       <section id="contact">
         <div class="secHead">
           <h2>Contact</h2>
-          <div class="hint">讓人「一秒就能找到你」</div>
+          <div class="hint">找我?</div>
         </div>
 
         <p style="color:var(--muted);line-height:1.75;max-width:70ch;margin-top:16px;">
-          最好只留三個：Email / LinkedIn / GitHub。其餘放次要連結。
+          Email
         </p>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
-          <a class="pill link" href="#" onclick="return false;">LinkedIn</a>
-          <a class="pill link" href="#" onclick="return false;">GitHub</a>
+
           <a class="pill link" href="#" id="copyEmail2">Copy Email</a>
         </div>
       </section>
 
       <footer>
-        <span>© <span id="year"></span> YOUR NAME</span>
+        <span>© <span id="year"></span> JUNG KANG</span>
         <span>Built with WebGL + HTML/CSS/JS</span>
       </footer>
     </div>
   </main>
 
   <script>
-    /*********************
-     * 可編輯的個人資料區
-     *********************/
     const PROFILE = {
       city: "TAIPEI",
       coords: "25.0330° N, 121.5654° E",
-      email: "your@email.com",
-      reelMp4Url: "", // 放你的 mp4 連結（或留空不放）
+      email: "jungkang0911@gmail.com",
+      reelMp4Url: "",
       weatherLat: 25.0330,
       weatherLon: 121.5654
     };
 
-    /*********************
-     * UI：時間 / 天氣 / copy
-     *********************/
     const $ = (sel) => document.querySelector(sel);
 
     $("#city").textContent = PROFILE.city;
@@ -498,58 +569,53 @@
     $("#copyEmail").textContent = PROFILE.email;
     $("#year").textContent = String(new Date().getFullYear());
 
-    function tickTime(){
+    function tickTime() {
       const d = new Date();
-      const pad = (n)=> String(n).padStart(2,"0");
+      const pad = (n) => String(n).padStart(2, "0");
       $("#time").textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     }
     tickTime();
     setInterval(tickTime, 1000);
 
-    async function loadWeather(){
-      try{
-        // Open-Meteo：免 key。你也可以換成自己的 API
+    async function loadWeather() {
+      try {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${PROFILE.weatherLat}&longitude=${PROFILE.weatherLon}&current_weather=true`;
         const res = await fetch(url, { cache: "no-store" });
         const data = await res.json();
         const cw = data.current_weather;
-        if(!cw) return;
+        if (!cw) return;
 
         $("#temp").textContent = `${Math.round(cw.temperature)}°`;
-        // 簡單文字化（你可自行更細）
         const code = cw.weathercode;
         const map = {
-          0:"Clear", 1:"Mainly clear", 2:"Partly cloudy", 3:"Overcast",
-          45:"Fog", 48:"Rime fog",
-          51:"Drizzle", 53:"Drizzle", 55:"Drizzle",
-          61:"Rain", 63:"Rain", 65:"Rain",
-          71:"Snow", 73:"Snow", 75:"Snow",
-          80:"Rain", 81:"Rain", 82:"Rain",
-          95:"Thunder", 96:"Thunder", 99:"Thunder"
+          0: "Clear", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
+          45: "Fog", 48: "Rime fog",
+          51: "Drizzle", 53: "Drizzle", 55: "Drizzle",
+          61: "Rain", 63: "Rain", 65: "Rain",
+          71: "Snow", 73: "Snow", 75: "Snow",
+          80: "Rain", 81: "Rain", 82: "Rain",
+          95: "Thunder", 96: "Thunder", 99: "Thunder"
         };
         $("#weather").textContent = map[code] ?? "Weather";
-      }catch(e){
-        // 失敗就保持 -- 不影響頁面
-      }
+      } catch (e) { }
     }
     loadWeather();
     setInterval(loadWeather, 60 * 60 * 1000);
 
     const toast = $("#toast");
     let toastTimer = null;
-    function showToast(text="Copied!"){
+    function showToast(text = "Copied!") {
       toast.textContent = text;
       toast.classList.add("show");
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=> toast.classList.remove("show"), 900);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 900);
     }
 
-    async function copyText(t){
-      try{
+    async function copyText(t) {
+      try {
         await navigator.clipboard.writeText(t);
         showToast("Copied!");
-      }catch(e){
-        // fallback
+      } catch (e) {
         const ta = document.createElement("textarea");
         ta.value = t; document.body.appendChild(ta);
         ta.select(); document.execCommand("copy");
@@ -558,49 +624,41 @@
       }
     }
 
-    $("#copyEmail").addEventListener("click", (e)=>{
+    $("#copyEmail").addEventListener("click", (e) => {
       e.preventDefault();
       copyText(PROFILE.email);
     });
-    $("#copyEmail2").addEventListener("click", (e)=>{
+    $("#copyEmail2").addEventListener("click", (e) => {
       e.preventDefault();
       copyText(PROFILE.email);
     });
 
-    /*********************
-     * Reel modal
-     *********************/
     const modal = $("#reelModal");
     const video = $("#reelVideo");
 
-    $("#openReel").addEventListener("click", ()=>{
-      if(PROFILE.reelMp4Url){
+    $("#openReel").addEventListener("click", () => {
+      if (PROFILE.reelMp4Url) {
         video.querySelector("source").src = PROFILE.reelMp4Url;
         video.load();
       }
       modal.classList.add("open");
     });
-    $("#closeReel").addEventListener("click", ()=>{
+    $("#closeReel").addEventListener("click", () => {
       modal.classList.remove("open");
-      try{ video.pause(); }catch(e){}
+      try { video.pause(); } catch (e) { }
     });
-    modal.addEventListener("click", (e)=>{
-      if(e.target === modal){
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
         modal.classList.remove("open");
-        try{ video.pause(); }catch(e){}
+        try { video.pause(); } catch (e) { }
       }
     });
 
-    /*********************
-     * 背景：WebGL（滑鼠 + 滾動影響）
-     * 不用任何外部套件，單檔可跑
-     *********************/
     const canvas = document.getElementById("bg");
     const gl = canvas.getContext("webgl2", { antialias: true, alpha: false, premultipliedAlpha: false });
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if(!gl || prefersReduced){
-      // 沒 WebGL 或使用者偏好降低動態：用 CSS 背景替代
+    if (!gl || prefersReduced) {
       canvas.style.display = "none";
       document.body.style.background =
         "radial-gradient(1200px 800px at 30% 10%, rgba(90,120,255,.14), transparent 60%)," +
@@ -622,16 +680,14 @@
 
       uniform vec2 u_res;
       uniform float u_time;
-      uniform vec2 u_mouse;   // 0..1
-      uniform float u_scroll; // 0..1
+      uniform vec2 u_mouse;
+      uniform float u_scroll;
 
-      // hash / noise
       float hash(vec2 p){
         p = fract(p*vec2(123.34, 456.21));
         p += dot(p, p+45.32);
         return fract(p.x*p.y);
       }
-
       float noise(vec2 p){
         vec2 i = floor(p);
         vec2 f = fract(p);
@@ -642,7 +698,6 @@
         vec2 u = f*f*(3.0-2.0*f);
         return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y;
       }
-
       float fbm(vec2 p){
         float v = 0.0;
         float a = 0.55;
@@ -655,31 +710,25 @@
       }
 
       void main(){
-        // aspect-correct uv
         vec2 uv = v_uv;
         vec2 p = (uv - 0.5);
         p.x *= u_res.x / u_res.y;
 
-        // mouse influence
         vec2 m = u_mouse - 0.5;
         m.x *= u_res.x / u_res.y;
 
         float t = u_time * 0.22;
 
-        // flow field
         float n1 = fbm(p*2.6 + vec2(t, -t*0.7) + m*0.9);
         float n2 = fbm(p*4.2 + vec2(-t*0.8, t) - m*0.6);
         float flow = n1*0.65 + n2*0.35;
 
-        // neuron-like lines
         float lines = abs(sin((p.y + flow*0.55 + u_scroll*0.9) * 10.0 + p.x*2.0));
-        lines = smoothstep(0.10, 0.0, lines); // thinner is brighter
+        lines = smoothstep(0.10, 0.0, lines);
 
-        // glow around mouse
         float d = length(p - m*0.7);
         float glow = smoothstep(0.55, 0.0, d) * 0.55;
 
-        // base shading
         float vign = smoothstep(1.2, 0.2, length(p));
         float grain = noise(uv*u_res*0.35 + u_time) * 0.05;
 
@@ -692,16 +741,15 @@
         col += tint * (flow*0.10 + glow*0.12);
         col += grain;
 
-        // keep it dark
         col = clamp(col, 0.0, 1.0);
         outColor = vec4(col, 1.0);
       }`;
 
-      function compile(type, src){
+      function compile(type, src) {
         const s = gl.createShader(type);
         gl.shaderSource(s, src);
         gl.compileShader(s);
-        if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
           console.error(gl.getShaderInfoLog(s));
           gl.deleteShader(s);
           return null;
@@ -714,7 +762,7 @@
       gl.attachShader(prog, vs);
       gl.attachShader(prog, fs);
       gl.linkProgram(prog);
-      if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
         console.error(gl.getProgramInfoLog(prog));
       }
       gl.useProgram(prog);
@@ -722,8 +770,8 @@
       const buf = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-        -1,-1,  1,-1,  -1, 1,
-        -1, 1,  1,-1,   1, 1
+        -1, -1, 1, -1, -1, 1,
+        -1, 1, 1, -1, 1, 1
       ]), gl.STATIC_DRAW);
 
       const aPos = gl.getAttribLocation(prog, "a_pos");
@@ -736,12 +784,12 @@
       const uScroll = gl.getUniformLocation(prog, "u_scroll");
 
       let mx = 0.5, my = 0.5;
-      window.addEventListener("pointermove", (e)=>{
+      window.addEventListener("pointermove", (e) => {
         mx = e.clientX / window.innerWidth;
         my = 1.0 - e.clientY / window.innerHeight;
       }, { passive: true });
 
-      function resize(){
+      function resize() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = Math.floor(window.innerWidth * dpr);
         canvas.height = Math.floor(window.innerHeight * dpr);
@@ -753,13 +801,13 @@
       window.addEventListener("resize", resize);
       resize();
 
-      function getScroll01(){
+      function getScroll01() {
         const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         return window.scrollY / max;
       }
 
       let t0 = performance.now();
-      function frame(now){
+      function frame(now) {
         const t = (now - t0) / 1000;
         gl.uniform1f(uTime, t);
         gl.uniform2f(uMouse, mx, my);
@@ -771,4 +819,5 @@
     }
   </script>
 </body>
+
 </html>
