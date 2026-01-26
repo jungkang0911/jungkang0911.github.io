@@ -1,1 +1,598 @@
-草稿中
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jung Kang ⌿ Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <div class="modal" id="reelModal" role="dialog" aria-modal="true" aria-label="Reel">
+    <div class="panel">
+      <div class="panelHead">
+        <span>REEL ■</span>
+        <button id="closeReel" type="button">Close</button>
+      </div>
+      <video id="reelVideo" controls preload="metadata">
+        <source src="" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+
+  <!-- 圖片燈箱 -->
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Image Lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="closeLightbox" type="button">&times;</button>
+      <img id="lightboxImage" src="" alt="" />
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="left">
+      <span class="pill"><span class="dot"></span><span id="city">TAIPEI</span></span>
+      <span class="pill"><span id="temp">--°</span> <span id="weather">—</span></span>
+      <span class="pill"><span id="time">--:--:--</span></span>
+      <span class="pill"><span id="coords">25.0330° N, 121.5654° E</span></span>
+    </div>
+
+    <div class="center">
+      <span id="copyHint" style="display:none;">Copied!</span>
+      <a class="link pill" href="#" id="copyEmail">jungkang0911@gmail.com</a>
+    </div>
+
+    <div class="right cta">
+      <a class="link" href="#about">About</a>
+      <a class="link" href="#work">Work</a>
+      <a class="link" href="#contact">Contact</a>
+      <button id="openReel" type="button">View my reel</button>
+    </div>
+  </header>
+
+  <main class="ui">
+    <div class="wrap">
+      <div class="hero">
+        <div>
+          <div class="kicker">FULL-STACK WEB / iOS / AUTOMATION</div>
+
+          <h2>
+           
+            全端開發 × 流程自動化
+          </h2>
+
+          <p>
+             Web 全端（.NET 生態系）與 iOS 開發。<br />
+            近期逐步把重心放在流程自動化與平台化能力，<br />
+            目前專注用 n8n 探索 AI 在實際系統中的整合與落地方式。
+          </p>
+<!---
+          <p class="tagline">WEB-FIRST / WORKFLOW AUTOMATION / AI INTEGRATION</p>-->
+        </div>
+
+        <aside class="heroCard">
+          <div class="row"><span>ROLE</span><span>Full-stack Web Developer · Technical PM/TPM</span></div>
+          <div class="row"><span>STACK</span><span>C# / .NET / ASP.NET / Angular / REST API / iOS / n8n</span></div>
+          <div class="row"><span>HIGHLIGHTS</span><span>CI/CD · K8s 擴縮與資源治理 · 高併發場景壓測優化</span></div>
+          <div class="row"><span>DESIGN</span><span>Illustrator / Photoshop</span></div>
+          <div class="row"><span>FOCUS</span><span>Web 平台 · Web API · 流程自動化</span></div>
+          <div class="row"><span>CONTACT</span><span>jungkang0911@gmail.com</span></div>
+        </aside>
+      </div>
+
+      <section id="about">
+        <div class="secHead">
+          <h2>About</h2>
+          <div class="hint">大概…</div>
+        </div>
+
+<div class="about-body" style="margin-top:16px; max-width:70ch; line-height:1.75; color:var(--muted);">
+  <p>
+    從網頁設計起步，現轉向程式開發，
+    設計背景讓我更重視資訊層級與使用者理解成本；工程背景則讓我能把想法落到穩定、可維運的架構上。
+  </p>
+
+  <p>
+    我做事偏向「先把系統做穩，再把流程做快」：先確保可觀測、可回滾與錯誤邊界清楚，
+    再用自動化把重複工作變成可追蹤的流程，最後才擴到平台化與規模化。
+  </p>
+
+  <p>
+    我希望交付的不只是功能，而是能長期運作的能力：清楚的邏輯、可維護的結構、可量化的改善，
+    讓系統可以持續迭代，而不是靠人力硬撐。
+  </p>
+</div>
+
+      </section>
+
+      <section id="work">
+        <div class="secHead">
+          <h2>Selected Work</h2>
+          <div class="hint">我做過…</div>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="meta"><span>Web Platform</span><span>ASP.NET / Angular</span></div>
+            <h3>網站平台建置與維運：前後端整合</h3>
+            <p>
+              負責多項 Web 平台的開發與維運（ASP.NET MVC / API），涵蓋後端串接、介面優化，
+              並支援行銷活動與 SEO 整合。
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="meta"><span>Workflow Automation</span><span>n8n</span></div>
+            <h3>n8n 流程中台：以工作流 + API 串接取代 RPA</h3>
+            <img src="images/n8n-flow.jpg" alt="OCR 欄位定位示意圖" loading="lazy"
+              style="width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.12);margin:12px 0;" />
+            <p>
+              主導以 n8n 建置流程中台，將多數自動化從「RPA 點擊操作」轉為「工作流編排 + API/服務串接」；
+              RPA 僅保留在少數不得不靠 UI 的環節，並加入重試與告警。
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="meta"><span>Web API</span><span>Performance</span></div>
+            <h3>CI/CD × K8s：高併發處理與穩定性治理</h3>
+            <img src="images/tls-sre.png" alt="OCR 欄位定位示意圖" loading="lazy"
+              style="width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.12);margin:12px 0;" />
+            <p>
+              建立與優化 CI/CD 上線流程，讓部署可重複、可回復；
+              在 Kubernetes 上規劃資源配額（Requests/Limits）、擴縮策略（HPA）與隔離設計（如 API Gateway/分流），
+              搭配壓測驗證尖峰情境、定位瓶頸並持續優化系統承載能力。
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="meta"><span>Document AI</span><span>OCR + YOLOv8</span></div>
+            <h3>地端 OCR Pipeline：欄位定位到結構化輸出</h3>
+            <img src="images/idcard-demo.png" alt="OCR 欄位定位示意圖" loading="lazy"
+              style="width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.12);margin:12px 0;" />
+            <p>
+              建置文件處理 Pipeline（前處理→欄位定位/裁切→辨識→後處理），並採混合 OCR 路由策略；
+              約 5,000 份樣本統計整體辨識率 >98%，雲端路徑先做個資遮罩以符合合規。
+            </p>
+          </article>
+
+          <!--合併-->
+
+          <article class="card-wide">
+            <div class="meta"><span>Web Design Works</span></div>
+            <h3>網頁設計作品集</h3>
+
+            <!-- 圖片輪播 -->
+            <div class="image-slider" id="project-slider">
+              <div class="slider-container">
+                <div class="slider-track">
+                  <div class="slide active">
+                    <img src="images/works/axistek.png" alt="作品圖片1" />
+                  </div>
+                  <div class="slide">
+                    <img src="images/works/silicon-sky.jpg" alt="作品圖片2" />
+                  </div>
+                  <div class="slide">
+                    <img src="images/works/S__15106073.jpg" alt="作品圖片3" />
+                  </div>
+                </div>
+              </div>
+              <div class="slider-controls">
+                <button class="slider-btn prev" onclick="prevSlide()">&#10094;</button>
+                <div class="slider-dots">
+                  <span class="slider-dot active" onclick="goToSlide(0)"></span>
+                  <span class="slider-dot" onclick="goToSlide(1)"></span>
+                  <span class="slider-dot" onclick="goToSlide(2)"></span>
+                </div>
+                <button class="slider-btn next" onclick="nextSlide()">&#10095;</button>
+              </div>
+            </div>
+
+            <p>
+           <!--打些什麼?-->
+            </p>
+          
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="secHead">
+          <h2>Contact</h2>
+          <div class="hint">找我?</div>
+        </div>
+
+        <p style="color:var(--muted);line-height:1.75;max-width:70ch;margin-top:16px;">
+          Email
+        </p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+
+          <a class="pill link" href="#" id="copyEmail2">Copy Email</a>
+        </div>
+      </section>
+
+      <footer>
+        <span>© <span id="year"></span> JUNG KANG</span>
+        <span>Built with WebGL + HTML/CSS/JS</span>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const PROFILE = {
+      city: "TAIPEI",
+      coords: "25.0330° N, 121.5654° E",
+      email: "jungkang0911@gmail.com",
+      reelMp4Url: "",
+      weatherLat: 25.0330,
+      weatherLon: 121.5654
+    };
+
+    const $ = (sel) => document.querySelector(sel);
+
+    $("#city").textContent = PROFILE.city;
+    $("#coords").textContent = PROFILE.coords;
+    $("#copyEmail").textContent = PROFILE.email;
+    $("#year").textContent = String(new Date().getFullYear());
+
+    function tickTime() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      $("#time").textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+    tickTime();
+    setInterval(tickTime, 1000);
+
+    async function loadWeather() {
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${PROFILE.weatherLat}&longitude=${PROFILE.weatherLon}&current_weather=true`;
+        const res = await fetch(url, { cache: "no-store" });
+        const data = await res.json();
+        const cw = data.current_weather;
+        if (!cw) return;
+
+        $("#temp").textContent = `${Math.round(cw.temperature)}°`;
+        const code = cw.weathercode;
+        const map = {
+          0: "Clear", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
+          45: "Fog", 48: "Rime fog",
+          51: "Drizzle", 53: "Drizzle", 55: "Drizzle",
+          61: "Rain", 63: "Rain", 65: "Rain",
+          71: "Snow", 73: "Snow", 75: "Snow",
+          80: "Rain", 81: "Rain", 82: "Rain",
+          95: "Thunder", 96: "Thunder", 99: "Thunder"
+        };
+        $("#weather").textContent = map[code] ?? "Weather";
+      } catch (e) { }
+    }
+    loadWeather();
+    setInterval(loadWeather, 60 * 60 * 1000);
+
+    const toast = $("#toast");
+    let toastTimer = null;
+    function showToast(text = "Copied!") {
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 900);
+    }
+
+    async function copyText(t) {
+      try {
+        await navigator.clipboard.writeText(t);
+        showToast("Copied!");
+      } catch (e) {
+        const ta = document.createElement("textarea");
+        ta.value = t; document.body.appendChild(ta);
+        ta.select(); document.execCommand("copy");
+        ta.remove();
+        showToast("Copied!");
+      }
+    }
+
+    $("#copyEmail").addEventListener("click", (e) => {
+      e.preventDefault();
+      copyText(PROFILE.email);
+    });
+    $("#copyEmail2").addEventListener("click", (e) => {
+      e.preventDefault();
+      copyText(PROFILE.email);
+    });
+
+    const modal = $("#reelModal");
+    const video = $("#reelVideo");
+
+    $("#openReel").addEventListener("click", () => {
+      if (PROFILE.reelMp4Url) {
+        video.querySelector("source").src = PROFILE.reelMp4Url;
+        video.load();
+      }
+      modal.classList.add("open");
+    });
+    $("#closeReel").addEventListener("click", () => {
+      modal.classList.remove("open");
+      try { video.pause(); } catch (e) { }
+    });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove("open");
+        try { video.pause(); } catch (e) { }
+      }
+    });
+
+    const canvas = document.getElementById("bg");
+    const gl = canvas.getContext("webgl2", { antialias: true, alpha: false, premultipliedAlpha: false });
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!gl || prefersReduced) {
+      canvas.style.display = "none";
+      document.body.style.background =
+        "radial-gradient(1200px 800px at 30% 10%, rgba(90,120,255,.14), transparent 60%)," +
+        "radial-gradient(900px 700px at 70% 40%, rgba(255,255,255,.06), transparent 55%)," +
+        "linear-gradient(#07080b, #07080b)";
+    } else {
+      const vert = `#version 300 es
+      in vec2 a_pos;
+      out vec2 v_uv;
+      void main(){
+        v_uv = a_pos * 0.5 + 0.5;
+        gl_Position = vec4(a_pos, 0.0, 1.0);
+      }`;
+
+      const frag = `#version 300 es
+      precision highp float;
+      out vec4 outColor;
+      in vec2 v_uv;
+
+      uniform vec2 u_res;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+      uniform float u_scroll;
+
+      float hash(vec2 p){
+        p = fract(p*vec2(123.34, 456.21));
+        p += dot(p, p+45.32);
+        return fract(p.x*p.y);
+      }
+      float noise(vec2 p){
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        float a = hash(i);
+        float b = hash(i + vec2(1.0, 0.0));
+        float c = hash(i + vec2(0.0, 1.0));
+        float d = hash(i + vec2(1.0, 1.0));
+        vec2 u = f*f*(3.0-2.0*f);
+        return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y;
+      }
+      float fbm(vec2 p){
+        float v = 0.0;
+        float a = 0.55;
+        for(int i=0;i<5;i++){
+          v += a * noise(p);
+          p *= 2.02;
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main(){
+        vec2 uv = v_uv;
+        vec2 p = (uv - 0.5);
+        p.x *= u_res.x / u_res.y;
+
+        vec2 m = u_mouse - 0.5;
+        m.x *= u_res.x / u_res.y;
+
+        float t = u_time * 0.22;
+
+        float n1 = fbm(p*2.6 + vec2(t, -t*0.7) + m*0.9);
+        float n2 = fbm(p*4.2 + vec2(-t*0.8, t) - m*0.6);
+        float flow = n1*0.65 + n2*0.35;
+
+        float lines = abs(sin((p.y + flow*0.55 + u_scroll*0.9) * 10.0 + p.x*2.0));
+        lines = smoothstep(0.10, 0.0, lines);
+
+        float d = length(p - m*0.7);
+        float glow = smoothstep(0.55, 0.0, d) * 0.55;
+
+        float vign = smoothstep(1.2, 0.2, length(p));
+        float grain = noise(uv*u_res*0.35 + u_time) * 0.05;
+
+        vec3 base = vec3(0.03, 0.035, 0.045);
+        vec3 ink  = vec3(0.92);
+        vec3 tint = vec3(0.22, 0.32, 0.95);
+
+        vec3 col = base;
+        col += (ink * (lines*0.65 + glow*0.35)) * vign;
+        col += tint * (flow*0.10 + glow*0.12);
+        col += grain;
+
+        col = clamp(col, 0.0, 1.0);
+        outColor = vec4(col, 1.0);
+      }`;
+
+      function compile(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+          console.error(gl.getShaderInfoLog(s));
+          gl.deleteShader(s);
+          return null;
+        }
+        return s;
+      }
+      const vs = compile(gl.VERTEX_SHADER, vert);
+      const fs = compile(gl.FRAGMENT_SHADER, frag);
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs);
+      gl.attachShader(prog, fs);
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        console.error(gl.getProgramInfoLog(prog));
+      }
+      gl.useProgram(prog);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        -1, -1, 1, -1, -1, 1,
+        -1, 1, 1, -1, 1, 1
+      ]), gl.STATIC_DRAW);
+
+      const aPos = gl.getAttribLocation(prog, "a_pos");
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      const uRes = gl.getUniformLocation(prog, "u_res");
+      const uTime = gl.getUniformLocation(prog, "u_time");
+      const uMouse = gl.getUniformLocation(prog, "u_mouse");
+      const uScroll = gl.getUniformLocation(prog, "u_scroll");
+
+      let mx = 0.5, my = 0.5;
+      window.addEventListener("pointermove", (e) => {
+        mx = e.clientX / window.innerWidth;
+        my = 1.0 - e.clientY / window.innerHeight;
+      }, { passive: true });
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(window.innerWidth * dpr);
+        canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      function getScroll01() {
+        const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        return window.scrollY / max;
+      }
+
+      let t0 = performance.now();
+      function frame(now) {
+        const t = (now - t0) / 1000;
+        gl.uniform1f(uTime, t);
+        gl.uniform2f(uMouse, mx, my);
+        gl.uniform1f(uScroll, getScroll01());
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // 圖片輪播功能
+    let currentSlide = 0;
+    let slides, dots;
+
+    function initSlider() {
+      slides = document.querySelectorAll('.slide');
+      dots = document.querySelectorAll('.slider-dot');
+      showSlide(0);
+      setInterval(nextSlide, 4000);
+    }
+
+    function showSlide(index) {
+      if (!slides || !dots) return;
+
+      // 隱藏所有slide
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      // 顯示當前slide
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      if (!slides) return;
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      if (!slides) return;
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+    }
+
+    // 初始化滑塊
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSlider);
+    } else {
+      initSlider();
+    }
+
+    // 鍵盤控制
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    });
+
+    // 燈箱功能
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const closeLightbox = document.getElementById('closeLightbox');
+
+    // 點擊圖片打開燈箱
+    document.querySelectorAll('.slide img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+        lightboxCaption.textContent = img.alt;
+        lightboxModal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // 防止背景滾動
+      });
+    });
+
+    // 關閉燈箱
+    function closeLightboxModal() {
+      lightboxModal.classList.remove('show');
+      document.body.style.overflow = ''; // 恢復背景滾動
+    }
+
+    closeLightbox.addEventListener('click', closeLightboxModal);
+
+    // 點擊背景關閉燈箱
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        closeLightboxModal();
+      }
+    });
+
+    // ESC鍵關閉燈箱
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal.classList.contains('show')) {
+        closeLightboxModal();
+      }
+    });
+  </script>
+</body>
+
+</html>
+>>>>>>> 4953a3c (Update portfolio with enhanced image slider and lightbox features)
