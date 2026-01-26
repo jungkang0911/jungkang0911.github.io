@@ -32,6 +32,15 @@
     </div>
   </div>
 
+  <!-- 圖片燈箱 -->
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Image Lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="closeLightbox" type="button">&times;</button>
+      <img id="lightboxImage" src="" alt="" />
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
   <header class="topbar">
     <div class="left">
       <span class="pill"><span class="dot"></span><span id="city">TAIPEI</span></span>
@@ -138,6 +147,49 @@
             <p>
               建置文件處理 Pipeline（前處理→欄位定位/裁切→辨識→後處理），並採混合 OCR 路由策略；
               約 5,000 份樣本統計整體辨識率 >98%，雲端路徑先做個資遮罩以符合合規。
+            </p>
+          </article>
+
+        <!--合併-->
+
+          <article class="card-wide">
+            <div class="meta"><span>Combined Projects</span><span>Web API & Document AI</span></div>
+            <h3>整合項目：Web API 效能優化與文件 AI 處理</h3>
+
+            <!-- 圖片輪播 -->
+            <div class="image-slider" id="project-slider">
+              <div class="slider-container">
+                <div class="slider-track">
+                  <div class="slide active">
+                    <img src="images/works/axistek.png" alt="作品圖片1" />
+                  </div>
+                  <div class="slide">
+                    <img src="images/works/silicon-sky.jpg" alt="作品圖片2" />
+                  </div>
+                  <div class="slide">
+                    <img src="images/works/S__15106073.jpg" alt="作品圖片3" />
+                  </div>
+                </div>
+              </div>
+              <div class="slider-controls">
+                <button class="slider-btn prev" onclick="prevSlide()">&#10094;</button>
+                <div class="slider-dots">
+                  <span class="slider-dot active" onclick="goToSlide(0)"></span>
+                  <span class="slider-dot" onclick="goToSlide(1)"></span>
+                  <span class="slider-dot" onclick="goToSlide(2)"></span>
+                </div>
+                <button class="slider-btn next" onclick="nextSlide()">&#10095;</button>
+              </div>
+            </div>
+
+            <p>
+              這是一個合併的項目展示，結合了 Web API 效能治理和文件 AI 處理兩項技術。
+              內容包括 CI/CD 自動化部署、Kubernetes 資源管理，以及 OCR Pipeline 的建置。
+              這裡可以隨意放置相關的項目描述和技術細節。
+            </p>
+            <p>
+              另一段隨便的內容：這個寬卡片可以用來展示多個相關項目的整合視圖，
+              提供更豐富的資訊呈現方式。技術涵蓋從前端到後端的全端開發經驗。
             </p>
           </article>
         </div>
@@ -431,6 +483,102 @@
       }
       requestAnimationFrame(frame);
     }
+
+    // 圖片輪播功能
+    let currentSlide = 0;
+    let slides, dots;
+
+    function initSlider() {
+      slides = document.querySelectorAll('.slide');
+      dots = document.querySelectorAll('.slider-dot');
+      showSlide(0);
+      setInterval(nextSlide, 4000);
+    }
+
+    function showSlide(index) {
+      if (!slides || !dots) return;
+
+      // 隱藏所有slide
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      // 顯示當前slide
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      if (!slides) return;
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      if (!slides) return;
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+    }
+
+    // 初始化滑塊
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSlider);
+    } else {
+      initSlider();
+    }
+
+    // 鍵盤控制
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    });
+
+    // 燈箱功能
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const closeLightbox = document.getElementById('closeLightbox');
+
+    // 點擊圖片打開燈箱
+    document.querySelectorAll('.slide img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt;
+        lightboxCaption.textContent = img.alt;
+        lightboxModal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // 防止背景滾動
+      });
+    });
+
+    // 關閉燈箱
+    function closeLightboxModal() {
+      lightboxModal.classList.remove('show');
+      document.body.style.overflow = ''; // 恢復背景滾動
+    }
+
+    closeLightbox.addEventListener('click', closeLightboxModal);
+
+    // 點擊背景關閉燈箱
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        closeLightboxModal();
+      }
+    });
+
+    // ESC鍵關閉燈箱
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxModal.classList.contains('show')) {
+        closeLightboxModal();
+      }
+    });
   </script>
 </body>
 

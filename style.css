@@ -271,6 +271,143 @@
       font-size: 14px;
     }
 
+    /* Wide card for merged articles */
+    .card-wide {
+      grid-column: span 12;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: rgba(255, 255, 255, .02);
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .card-wide:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .card-wide .meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-wide h3 {
+      margin: 12px 0 8px;
+      font-size: 18px;
+    }
+
+    .card-wide p {
+      margin: 0 0 12px 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* Image slider styles */
+    .image-slider {
+      margin: 16px 0;
+    }
+
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      height: 300px;
+    }
+
+    .slider-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0.95);
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 2;
+      transform: scale(1);
+    }
+
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 11px;
+      position: relative;
+      z-index: 3;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .slide img:hover {
+      transform: scale(1.02);
+    }
+
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .slider-btn {
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fg);
+      font-size: 16px;
+      transition: background .18s ease;
+    }
+
+    .slider-btn:hover {
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .slider-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .slider-dots .slider-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .3);
+      cursor: pointer;
+      transition: background .18s ease;
+    }
+
+    .slider-dots .slider-dot.active {
+      background: var(--fg);
+    }
+
     footer {
       margin-top: 90px;
       padding: 28px 0;
@@ -371,6 +508,77 @@
         flex-wrap: wrap;
       }
     }
+
+/* Lightbox styles */
+.lightbox-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.lightbox-modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-caption {
+  margin-top: 15px;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  max-width: 80vw;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
     @media (prefers-reduced-motion: reduce) {
       .card {
