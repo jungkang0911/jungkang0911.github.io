@@ -1,588 +1,659 @@
 <!doctype html>
 <html lang="zh-Hant">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Jung Kang ⌿ Portfolio</title>
-
+  <title>Jung Kang</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #07080b;
+      --surface: #10131a;
+      --surface2: #161b25;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --text: #dde2ee;
+      --muted: #6b7585;
+      --dim: #3d4455;
+      --accent: #6d8fff;
+      --accent2: #a78bfa;
+      --green: #4ade80;
+      --font: 'Inter', system-ui, sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── WebGL Canvas ── */
+    #bg {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0; display: block;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(12px);
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--text); font-size: 13px; padding: 8px 18px; border-radius: 20px;
+      opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Lightbox ── */
+    .lightbox-modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,.85);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 900; opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .lightbox-modal.show { opacity: 1; pointer-events: all; }
+    .lightbox-content { position: relative; max-width: 90vw; max-height: 90vh; }
+    .lightbox-content img { max-width: 100%; max-height: 85vh; border-radius: 8px; display: block; }
+    .lightbox-close {
+      position: absolute; top: -36px; right: 0;
+      background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 4px 8px;
+    }
+    .lightbox-caption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 10px; }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; height: 44px;
+      background: rgba(7,8,11,0.6); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar .left, .topbar .right { display: flex; align-items: center; gap: 8px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      padding: 3px 9px; border-radius: 20px;
+    }
+    .pill.link { cursor: pointer; transition: color .15s, border-color .15s; }
+    .pill.link:hover { color: var(--text); border-color: var(--border2); }
+    .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .topbar .right { gap: 16px; }
+    .topbar .right a { font-size: 13px; color: var(--muted); transition: color .15s; }
+    .topbar .right a:hover { color: var(--text); }
+    .topbar .right button {
+      font-size: 12px; font-family: var(--mono); color: var(--accent);
+      background: rgba(109,143,255,0.08); border: 1px solid rgba(109,143,255,0.2);
+      padding: 4px 12px; border-radius: 6px; cursor: pointer; transition: all .15s;
+    }
+    .topbar .right button:hover { background: rgba(109,143,255,0.15); }
+
+    /* ── Reel Modal ── */
+    .modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 800; opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    .modal.open { opacity: 1; pointer-events: all; }
+    .panel {
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 12px; overflow: hidden; width: min(720px, 92vw);
+    }
+    .panelHead {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+    }
+    .panelHead button {
+      background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; padding: 2px 6px;
+    }
+    .panel video { width: 100%; display: block; max-height: 60vh; }
+
+    /* ── Layout ── */
+    .wrap {
+      position: relative; z-index: 10;
+      max-width: 860px; margin: 0 auto;
+      padding: 100px 28px 60px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 70vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 60px 0 80px;
+    }
+    .hero-label {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px); font-weight: 600;
+      line-height: 1.15; letter-spacing: -1.5px; color: #f0f2f8;
+      margin-bottom: 12px;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero-sub {
+      font-size: 17px; color: var(--muted); line-height: 1.7;
+      max-width: 52ch; margin-bottom: 40px;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+    .tag {
+      font-size: 12px; font-family: var(--mono);
+      color: var(--muted); border: 1px solid var(--border);
+      padding: 4px 12px; border-radius: 20px;
+      transition: color .15s, border-color .15s;
+    }
+    .tag:hover { color: var(--text); border-color: var(--border2); }
+
+    /* ── Section ── */
+    section { padding: 80px 0; border-top: 1px solid var(--border); }
+    .sec-label {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px;
+    }
+
+    /* ── What I Do ── */
+    .capabilities { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .cap {
+      background: var(--surface); padding: 28px 24px;
+      transition: background .15s;
+    }
+    .cap:hover { background: var(--surface2); }
+    .cap-num { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-bottom: 16px; }
+    .cap h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; line-height: 1.4; }
+    .cap p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ── Numbers ── */
+    .numbers { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .num-item { background: var(--surface); padding: 28px 20px; }
+    .num-val { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 8px; }
+    .num-val span { color: var(--accent); }
+    .num-label { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* ── Work ── */
+    .work-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    .work-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      transition: border-color .2s, background .2s;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .work-card:hover { border-color: var(--border2); background: var(--surface2); }
+    .work-card-wide { grid-column: span 2; }
+    .work-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .work-tag {
+      font-size: 11px; font-family: var(--mono); color: var(--muted);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .work-card h3 { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; }
+    .work-card p { font-size: 13px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .work-card .work-link {
+      font-size: 12px; font-family: var(--mono); color: var(--accent);
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: auto;
+    }
+    .work-card .work-link:hover { text-decoration: underline; }
+    .work-img {
+      width: 100%; height: auto; border-radius: 8px;
+      border: 1px solid var(--border); display: block;
+    }
+
+    /* Image Slider */
+    .image-slider { position: relative; }
+    .slider-container { overflow: hidden; border-radius: 8px; border: 1px solid var(--border); }
+    .slider-track { display: flex; }
+    .slide { min-width: 100%; display: none; }
+    .slide.active { display: block; }
+    .slide img { width: 100%; height: auto; display: block; cursor: pointer; }
+    .slider-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 12px; }
+    .slider-btn {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); width: 28px; height: 28px; border-radius: 50%;
+      cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+    }
+    .slider-btn:hover { border-color: var(--border2); color: var(--text); }
+    .slider-dots { display: flex; gap: 6px; }
+    .slider-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--dim); cursor: pointer; transition: background .15s; }
+    .slider-dot.active { background: var(--accent); }
+
+    /* ── About ── */
+    .about-text {
+      font-size: 17px; color: var(--muted); line-height: 1.9;
+      max-width: 62ch;
+    }
+    .about-text p { margin-bottom: 1.4em; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text strong { color: var(--text); font-weight: 500; }
+
+    /* ── Contact ── */
+    .contact-wrap { display: flex; flex-direction: column; gap: 20px; }
+    .contact-line { font-size: 22px; color: var(--text); font-weight: 500; }
+    .contact-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-primary {
+      font-size: 13px; font-family: var(--mono);
+      background: rgba(109,143,255,0.12); border: 1px solid rgba(109,143,255,0.25);
+      color: var(--accent); padding: 8px 18px; border-radius: 8px;
+      cursor: pointer; transition: all .15s;
+    }
+    .btn-primary:hover { background: rgba(109,143,255,0.2); }
+
+    /* ── Footer ── */
+    footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 0; border-top: 1px solid var(--border);
+      font-size: 12px; font-family: var(--mono); color: var(--dim);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .topbar .left .pill:nth-child(n+3) { display: none; }
+      .capabilities { grid-template-columns: 1fr; }
+      .numbers { grid-template-columns: repeat(2,1fr); }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-card-wide { grid-column: span 1; }
+      .hero h1 { font-size: 32px; }
+    }
+  </style>
 </head>
-
 <body>
-  <div id="app">
-    <canvas id="bg" aria-hidden="true"></canvas>
-    <div class="noise" aria-hidden="true"></div>
+<div id="app">
+  <canvas id="bg" aria-hidden="true"></canvas>
 
-    <div class="toast" :class="{ show: toast.show }">{{ toast.text }}</div>
+  <div class="toast" :class="{ show: toast.show }">{{ toast.text }}</div>
 
-    <div class="modal" :class="{ open: reel.isOpen }" @click="closeReelIfBackdrop" role="dialog" aria-modal="true" aria-label="Reel">
-      <div class="panel">
-        <div class="panelHead">
-          <span>REEL ■</span>
-          <button @click="closeReel" type="button">Close</button>
-        </div>
-        <video ref="reelVideo" controls preload="metadata">
-          <source :src="profile.reelMp4Url" type="video/mp4" />
-        </video>
+  <!-- Reel Modal -->
+  <div class="modal" :class="{ open: reel.isOpen }" @click="closeReelIfBackdrop" role="dialog" aria-modal="true">
+    <div class="panel">
+      <div class="panelHead">
+        <span>REEL ■</span>
+        <button @click="closeReel">Close</button>
       </div>
+      <video ref="reelVideo" controls preload="metadata">
+        <source :src="profile.reelMp4Url" type="video/mp4" />
+      </video>
     </div>
-
-    <!-- 圖片燈箱 -->
-    <div class="lightbox-modal" :class="{ show: lightbox.isOpen }" @click="closeLightboxIfBackdrop" role="dialog" aria-modal="true" aria-label="Image Lightbox">
-      <div class="lightbox-content">
-        <button class="lightbox-close" @click="closeLightbox" type="button">&times;</button>
-        <img :src="lightbox.imageSrc" :alt="lightbox.caption" />
-        <div class="lightbox-caption">{{ lightbox.caption }}</div>
-      </div>
-    </div>
-
-    <header class="topbar">
-      <div class="left">
-        <span class="pill"><span class="dot"></span><span>{{ profile.city }}</span></span>
-        <span class="pill"><span>{{ weather.temp }}°</span> <span>{{ weather.description }}</span></span>
-        <span class="pill"><span>{{ currentTime }}</span></span>
-        <span class="pill"><span>{{ profile.coords }}</span></span>
-      </div>
-
-      <div class="center">
-        <a class="link pill" href="#" @click.prevent="copyEmail">{{ profile.email }}</a>
-      </div>
-
-      <div class="right cta">
-        <a class="link" href="#about">About</a>
-        <a class="link" href="#work">Work</a>
-        <a class="link" href="#contact">Contact</a>
-        <button @click="openReel" type="button">View my reel</button>
-      </div>
-    </header>
-
-    <main class="ui">
-      <div class="wrap">
-        <div class="hero">
-          <div>
-            <div class="kicker">AI AGENT · MCP · ENTERPRISE AUTOMATION</div>
-
-            <h2>AI 落地 × 企業系統整合</h2>
-
-            <p>
-              習慣從業務痛點出發，不只規劃，也動手實作。<br />
-              主導以 n8n + AI Agent + MCP 替代傳統 RPA，<br />
-              讓複雜流程變得可落地、可維運、可量化改善。
-            </p>
-          </div>
-
-          <aside class="heroCard">
-            <div class="row"><span>ROLE</span><span>技術型 PM · 系統整合 · AI 落地架構</span></div>
-            <div class="row"><span>AI</span><span>n8n · AI Agent · MCP · LLM 整合 · 網頁自動化</span></div>
-            <div class="row"><span>STACK</span><span>C# / .NET / ASP.NET / Angular / Node.js / Docker</span></div>
-            <div class="row"><span>HIGHLIGHTS</span><span>Middleware 高併發優化 · OCR Pipeline · RPA 替代架構</span></div>
-            <div class="row"><span>FOCUS</span><span>AI 真正落地的那一段</span></div>
-            <div class="row"><span>CONTACT</span><span>{{ profile.email }}</span></div>
-          </aside>
-        </div>
-
-        <section id="about">
-          <div class="secHead">
-            <h2>About</h2>
-            <div class="hint">大概…</div>
-          </div>
-
-          <div class="about-body" style="margin-top:16px; max-width:70ch; line-height:1.75; color:var(--muted);">
-            <p>
-              我習慣從業務流程的痛點出發，而不是從技術本身出發。
-            </p>
-            <p>
-              在多個專案中，我同時承擔 PM、SA、SD、甚至 PG 的角色——這不是因為人手不足，
-              而是跨層視野在複雜專案裡往往是推進關鍵。我的核心一直是讓複雜的系統和流程變得可落地、可維運，
-              只是每次用的切入角度不同。
-            </p>
-            <p>
-              擅長用數據說話，把技術方案轉化為管理層聽得懂、願意支持的落地計畫。
-              曾自主推動 OCR / Document AI 替代方案，以 PoC 數據取得高階主管支持，完成從模型訓練到系統回寫的完整落地。
-            </p>
-            <p>
-              近年持續在 AI 落地架構上累積實作：工作上主導 n8n + AI Agent + MCP 替代 RPA 架構；
-              私下 4 天獨立完成「申購計算機」Android App 並上架 Google Play、
-              實作一鍵影片生成 workflow（STT / TTS / Remotion）、自然語言驅動的股價技術指標分析工具。
-            </p>
-            <p>
-              這些不是為了跟風 AI，而是持續驗證「AI 能力如何變成可維運的系統」這件事。<br />
-              我想參與的不是 AI 功能開發，而是 AI 真正落地的那一段。
-            </p>
-          </div>
-        </section>
-
-        <section id="work">
-          <div class="secHead">
-            <h2>Selected Work</h2>
-            <div class="hint">我做過…</div>
-          </div>
-
-          <div class="grid">
-
-            <article class="card">
-              <div class="meta"><span>AI Agent</span><span>Node.js · MCP · CDP</span></div>
-              <h3>企業系統 AI Agent：自然語言驅動 + 自我修復</h3>
-              <p>
-                設計並實作 FAS 企業系統 AI Agent，整合 MCP Server 與 Chrome CDP，
-                支援自然語言驅動網頁操作。建立 AI 自我修復機制——Agent 偵測非預期狀態（彈窗、Session 逾時），
-                自動截圖分析並決策修復路徑，無需人工介入。執行完成後自動產出結構化報告，完整記錄每步 AI 決策軌跡。
-              </p>
-            </article>
-
-            <article class="card">
-              <div class="meta"><span>Workflow Automation</span><span>n8n · AI Agent · MCP</span></div>
-              <h3>RPA 替代架構：n8n + AI Agent 取代傳統機器人</h3>
-              <p>
-                主導以 n8n 為核心的 RPA 替代架構設計，整合 AI Agent、Browser / Login / Desktop MCP
-                與 Node.js Tool Service。已完成首隻機器人替換驗證，規劃分階段遷移路徑，
-                Phase 2 預估年省授權費 $38.2 萬（含稅）。將傳統 RPA 拆分為流程編排、決策、工具執行三層，
-                大幅提升可維護性。
-              </p>
-            </article>
-
-            <article class="card">
-              <div class="meta"><span>Middleware</span><span>高併發 · 分流架構</span></div>
-              <h3>Middleware 高併發瓶頸改善：延宕 8 年問題根治</h3>
-              <p>
-                獨立主導對外 Middleware 穩定性優化。壓測確認瓶頸為同步程式模型與 Linux inotify I/O limit，
-                非資源不足。完成核心服務非同步改寫，新建 Ziddleware 分流中繼平台搭配 Kong 依來源路由隔離。
-                系統承載從 20,000 RPM 提升至 30,000–40,000 RPM；Pod 數由 10 降至 3，
-                高壓情境 CPU / Memory 使用率仍 ≤ 30%。App 端零修改，全面消除單點故障風險。
-              </p>
-            </article>
-
-            <article class="card">
-              <div class="meta"><span>Document AI</span><span>OCR · YOLOv8</span></div>
-              <h3>地端 OCR Pipeline：從 PoC 到完整落地</h3>
-              <p>
-                自主發現現有 OCR 授權斷供風險，規劃替代方案並以 PoC 數據取得高階主管支持。
-                結合深度學習模型訓練強化欄位定位精準度，完成影像前處理、欄位裁切、辨識到系統回寫全流程。
-                落地場景：身分證正反面、行照、健保卡、台灣電費單。約 5,000 份樣本整體辨識率 &gt;98%。
-              </p>
-            </article>
-
-            <article class="card">
-              <div class="meta"><span>Android App</span><span>Google Play</span></div>
-              <h3>申購計算機：4 天從 0 到 Play Store 上架</h3>
-              <p>
-                獨立設計並開發股票申購損益計算 Android App，以 AI 輔助完成全程開發，
-                4 天完成從產品設計、實作到 Google Play 發布。
-                驗證以 AI 工具快速將想法轉化為可交付產品的完整能力。
-              </p>
-              <p style="margin-top:10px;">
-                <a href="https://play.google.com/store/apps/details?id=com.chouhaoqian.app"
-                   target="_blank" rel="noopener"
-                   style="color:var(--accent,#6d8fff);font-size:13px;">→ Google Play 查看</a>
-              </p>
-            </article>
-
-            <!-- Wide Card with Image Slider -->
-            <article class="card-wide">
-              <div class="meta"><span>Web Design Works</span></div>
-              <h3>網頁設計作品集</h3>
-              <div class="image-slider">
-                <div class="slider-container">
-                  <div class="slider-track">
-                    <div v-for="(slide, index) in slider.slides" :key="index"
-                         class="slide"
-                         :class="{ active: slider.currentIndex === index }">
-                      <img :src="slide.src" :alt="slide.alt" @click="openLightbox(slide)" />
-                    </div>
-                  </div>
-                </div>
-                <div class="slider-controls">
-                  <button class="slider-btn prev" @click="prevSlide">&#10094;</button>
-                  <div class="slider-dots">
-                    <span v-for="(slide, index) in slider.slides" :key="index"
-                          class="slider-dot"
-                          :class="{ active: slider.currentIndex === index }"
-                          @click="goToSlide(index)"></span>
-                  </div>
-                  <button class="slider-btn next" @click="nextSlide">&#10095;</button>
-                </div>
-              </div>
-              <p style="margin-top:16px;">
-                過去的網頁設計作品展示，包含企業官網、產品頁面等視覺設計案例。
-              </p>
-            </article>
-
-          </div>
-        </section>
-
-        <section id="contact">
-          <div class="secHead">
-            <h2>Contact</h2>
-            <div class="hint">找我?</div>
-          </div>
-
-          <p style="color:var(--muted);line-height:1.75;max-width:70ch;margin-top:16px;">
-            Email
-          </p>
-
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
-            <a class="pill link" href="#" @click.prevent="copyEmail">Copy Email</a>
-          </div>
-        </section>
-
-        <footer>
-          <span>© {{ currentYear }} JUNG KANG</span>
-          <span>Built with Vue 3 + WebGL + HTML/CSS</span>
-        </footer>
-      </div>
-    </main>
   </div>
 
-  <script>
-    const { createApp } = Vue;
+  <!-- Lightbox -->
+  <div class="lightbox-modal" :class="{ show: lightbox.isOpen }" @click="closeLightboxIfBackdrop" role="dialog" aria-modal="true">
+    <div class="lightbox-content">
+      <button class="lightbox-close" @click="closeLightbox">&times;</button>
+      <img :src="lightbox.imageSrc" :alt="lightbox.caption" />
+      <div class="lightbox-caption">{{ lightbox.caption }}</div>
+    </div>
+  </div>
 
-    createApp({
-      data() {
-        return {
-          profile: {
-            city: "TAIPEI",
-            coords: "25.0330° N, 121.5654° E",
-            email: "jungkang0911@gmail.com",
-            reelMp4Url: "",
-            weatherLat: 25.0330,
-            weatherLon: 121.5654
-          },
-          currentTime: '--:--:--',
-          currentYear: new Date().getFullYear(),
-          weather: {
-            temp: '--',
-            description: '—'
-          },
-          toast: {
-            show: false,
-            text: 'Copied!'
-          },
-          reel: {
-            isOpen: false
-          },
-          lightbox: {
-            isOpen: false,
-            imageSrc: '',
-            caption: ''
-          },
-          slider: {
-            currentIndex: 0,
-            slides: [
-              { src: 'images/works/axistek.png', alt: 'Axistek 企業官網設計' },
-              { src: 'images/works/silicon-sky.jpg', alt: 'Silicon Sky 產品頁面' },
-              { src: 'images/works/S__15106073.jpg', alt: '企業形象網站設計' }
-            ],
-            autoPlayInterval: null
-          }
-        };
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="left">
+      <span class="pill"><span class="dot"></span><span>{{ profile.city }}</span></span>
+      <span class="pill">{{ weather.temp }}° {{ weather.description }}</span>
+      <span class="pill">{{ currentTime }}</span>
+    </div>
+    <div class="right">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+      <button @click="openReel">Reel</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-label">Jung Kang &mdash; Technical PM / AI Integration</div>
+        <h1>讓 AI<br /><em>真正落地</em></h1>
+        <p class="hero-sub">
+          不只規劃，也動手實作。<br />
+          主導企業系統 AI 化、流程自動化與高併發穩定性改善，<br />
+          能在需求、架構、實作之間靈活切換。
+        </p>
+        <div class="hero-meta">
+          <span class="tag">n8n · AI Agent · MCP</span>
+          <span class="tag">C# / .NET / Angular</span>
+          <span class="tag">OCR / Document AI</span>
+          <span class="tag">Middleware 高併發</span>
+          <span class="tag">台北</span>
+          <a class="tag pill link" href="#" @click.prevent="copyEmail">{{ profile.email }}</a>
+        </div>
+      </div>
+
+      <!-- What I Do -->
+      <section id="about">
+        <div class="sec-label">What I Do</div>
+        <div class="capabilities">
+          <div class="cap">
+            <div class="cap-num">01</div>
+            <h3>AI 落地架構</h3>
+            <p>讓系統自己看畫面、自己判斷、自己修復。把 LLM 能力接進企業流程，而不只是做一個聊天機器人。</p>
+          </div>
+          <div class="cap">
+            <div class="cap-num">02</div>
+            <h3>流程重構</h3>
+            <p>把 RPA 機器人換成真正可維運的 workflow。n8n 編排 + AI Agent 決策 + MCP 工具執行，三層分離。</p>
+          </div>
+          <div class="cap">
+            <div class="cap-num">03</div>
+            <h3>跨層推進</h3>
+            <p>同一個人能當 PM、SA、SD、PG。不是因為人手不足，而是跨層視野在複雜專案裡往往是推進關鍵。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Numbers -->
+      <section style="padding-top: 0; border-top: none;">
+        <div class="numbers">
+          <div class="num-item">
+            <div class="num-val">20K<span>→</span>40K</div>
+            <div class="num-label">RPM 系統承載提升<br />Middleware 優化</div>
+          </div>
+          <div class="num-item">
+            <div class="num-val">&gt;<span>98</span>%</div>
+            <div class="num-label">OCR 欄位辨識率<br />5,000 份樣本統計</div>
+          </div>
+          <div class="num-item">
+            <div class="num-val"><span>4</span> 天</div>
+            <div class="num-label">App 從 0 到<br />Google Play 上架</div>
+          </div>
+          <div class="num-item">
+            <div class="num-val"><span>8</span> 年</div>
+            <div class="num-label">Middleware 老問題<br />獨立根治</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Work -->
+      <section id="work">
+        <div class="sec-label">Selected Work</div>
+        <div class="work-grid">
+
+          <div class="work-card">
+            <div class="work-tags">
+              <span class="work-tag">AI Agent</span>
+              <span class="work-tag">MCP</span>
+              <span class="work-tag">Node.js</span>
+            </div>
+            <h3>讓系統自己看畫面、自己決定下一步</h3>
+            <p>
+              企業系統 AI Agent：整合 MCP Server 與 Chrome CDP，
+              支援自然語言驅動網頁操作。Agent 偵測到非預期狀態時，
+              自動截圖送 AI 分析，決策修復路徑後繼續執行，
+              完成後產出帶有決策軌跡的執行報告。
+            </p>
+          </div>
+
+          <div class="work-card">
+            <div class="work-tags">
+              <span class="work-tag">n8n</span>
+              <span class="work-tag">RPA 替代</span>
+              <span class="work-tag">架構設計</span>
+            </div>
+            <h3>把 RPA 機器人換成真正可維運的東西</h3>
+            <p>
+              獨立規劃以 n8n 為核心的替代架構，整合 AI Agent、
+              Browser / Desktop MCP 與 Node.js Tool Service。
+              已完成首隻機器人替換驗證，
+              Phase 2 預估年省授權費 $38.2 萬（含稅）。
+            </p>
+          </div>
+
+          <div class="work-card">
+            <div class="work-tags">
+              <span class="work-tag">Middleware</span>
+              <span class="work-tag">高併發</span>
+              <span class="work-tag">Kong</span>
+            </div>
+            <h3>跑了 8 年才根治的高併發問題</h3>
+            <p>
+              10 個 Pod 仍反覆 restart，問題延宕 8 年。
+              壓測確認根因為同步程式模型與 Linux inotify I/O limit，
+              非資源不足。完成非同步改寫 + Ziddleware 分流架構，
+              承載從 20K 提升至 30–40K RPM，Pod 數 10 → 3。
+            </p>
+          </div>
+
+          <div class="work-card">
+            <div class="work-tags">
+              <span class="work-tag">OCR</span>
+              <span class="work-tag">YOLOv8</span>
+              <span class="work-tag">Document AI</span>
+            </div>
+            <h3>從 PoC 說服主管，到文件辨識系統上線</h3>
+            <p>
+              自主發現 ABBYY 授權斷供風險，規劃替代方案。
+              以 PoC 數據取得高階主管支持後，
+              完成深度學習模型訓練、影像前處理、欄位辨識到系統回寫全流程。
+              落地場景：身分證、行照、健保卡、電費單，辨識率 &gt;98%。
+            </p>
+          </div>
+
+          <div class="work-card">
+            <div class="work-tags">
+              <span class="work-tag">Android</span>
+              <span class="work-tag">Google Play</span>
+              <span class="work-tag">AI 輔助開發</span>
+            </div>
+            <h3>4 天，從想法到 Google Play</h3>
+            <p>
+              獨立設計並開發股票申購損益計算 App，
+              以 AI 輔助完成全程開發，4 天完成從產品設計、實作到上架。
+            </p>
+            <a class="work-link" href="https://play.google.com/store/apps/details?id=com.chouhaoqian.app" target="_blank" rel="noopener">
+              → 申購計算機 on Google Play
+            </a>
+          </div>
+
+          <!-- Design Portfolio -->
+          <div class="work-card work-card-wide">
+            <div class="work-tags">
+              <span class="work-tag">Web Design</span>
+              <span class="work-tag">Illustrator</span>
+              <span class="work-tag">Photoshop</span>
+            </div>
+            <h3>網頁設計作品集</h3>
+            <div class="image-slider">
+              <div class="slider-container">
+                <div class="slider-track">
+                  <div v-for="(slide, index) in slider.slides" :key="index"
+                       class="slide" :class="{ active: slider.currentIndex === index }">
+                    <img :src="slide.src" :alt="slide.alt" @click="openLightbox(slide)" />
+                  </div>
+                </div>
+              </div>
+              <div class="slider-controls">
+                <button class="slider-btn" @click="prevSlide">&#10094;</button>
+                <div class="slider-dots">
+                  <span v-for="(slide, index) in slider.slides" :key="index"
+                        class="slider-dot" :class="{ active: slider.currentIndex === index }"
+                        @click="goToSlide(index)"></span>
+                </div>
+                <button class="slider-btn" @click="nextSlide">&#10095;</button>
+              </div>
+            </div>
+            <p>企業官網、產品頁面等視覺設計案例。</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- About -->
+      <section>
+        <div class="sec-label">About</div>
+        <div class="about-text">
+          <p>
+            我在企業裡推 AI 落地。<br />
+            不是建模型——是讓業務流程<strong>真的用上 AI</strong>，然後穩定跑下去。
+          </p>
+          <p>
+            這件事比聽起來難。<br />
+            要能跟業務談清楚問題，要能設計架構，<br />
+            要能自己寫程式，要能讓主管看懂為什麼值得投入。<br />
+            我剛好這幾件事都做過。
+          </p>
+          <p>
+            在多個專案裡同時當 PM、SA、SD、甚至 PG。<br />
+            不是因為人手不足——<br />
+            而是跨層視野在複雜專案裡往往才是推進的關鍵。
+          </p>
+          <p>
+            核心從沒變過：<strong>讓複雜的東西變得可落地、可維運。</strong><br />
+            只是每次用的切入角度不同。
+          </p>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <div class="sec-label">Contact</div>
+        <div class="contact-wrap">
+          <div class="contact-line">有想法？直接找我。</div>
+          <div class="contact-actions">
+            <button class="btn-primary" @click="copyEmail">Copy Email</button>
+            <a class="btn-primary" href="https://www.linkedin.com/in/家榮-康-b96b583b0/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>© {{ currentYear }} Jung Kang</span>
+        <span>Vue 3 + WebGL</span>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const { createApp } = Vue;
+createApp({
+  data() {
+    return {
+      profile: {
+        city: 'TAIPEI',
+        email: 'jungkang0911@gmail.com',
+        reelMp4Url: '',
+        weatherLat: 25.0330,
+        weatherLon: 121.5654
       },
-      mounted() {
-        this.initTime();
-        this.loadWeather();
-        this.initSlider();
-        this.initWebGL();
-        this.initKeyboardControls();
-      },
-      beforeUnmount() {
-        if (this.slider.autoPlayInterval) {
-          clearInterval(this.slider.autoPlayInterval);
-        }
-      },
-      methods: {
-        initTime() {
-          const updateTime = () => {
-            const d = new Date();
-            const pad = (n) => String(n).padStart(2, "0");
-            this.currentTime = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-          };
-          updateTime();
-          setInterval(updateTime, 1000);
-        },
-        async loadWeather() {
-          try {
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${this.profile.weatherLat}&longitude=${this.profile.weatherLon}&current_weather=true`;
-            const res = await fetch(url, { cache: "no-store" });
-            const data = await res.json();
-            const cw = data.current_weather;
-            if (!cw) return;
-
-            this.weather.temp = Math.round(cw.temperature);
-            const code = cw.weathercode;
-            const map = {
-              0: "Clear", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
-              45: "Fog", 48: "Rime fog",
-              51: "Drizzle", 53: "Drizzle", 55: "Drizzle",
-              61: "Rain", 63: "Rain", 65: "Rain",
-              71: "Snow", 73: "Snow", 75: "Snow",
-              80: "Rain", 81: "Rain", 82: "Rain",
-              95: "Thunder", 96: "Thunder", 99: "Thunder"
-            };
-            this.weather.description = map[code] ?? "Weather";
-          } catch (e) {
-            console.error('Weather fetch failed:', e);
-          }
-          setTimeout(() => this.loadWeather(), 60 * 60 * 1000);
-        },
-        async copyEmail() {
-          try {
-            await navigator.clipboard.writeText(this.profile.email);
-            this.showToast('Copied!');
-          } catch (e) {
-            const ta = document.createElement("textarea");
-            ta.value = this.profile.email;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand("copy");
-            ta.remove();
-            this.showToast('Copied!');
-          }
-        },
-        showToast(text) {
-          this.toast.text = text;
-          this.toast.show = true;
-          setTimeout(() => {
-            this.toast.show = false;
-          }, 900);
-        },
-        openReel() {
-          this.reel.isOpen = true;
-          if (this.$refs.reelVideo && this.profile.reelMp4Url) {
-            this.$refs.reelVideo.load();
-          }
-        },
-        closeReel() {
-          this.reel.isOpen = false;
-          if (this.$refs.reelVideo) {
-            try {
-              this.$refs.reelVideo.pause();
-            } catch (e) {}
-          }
-        },
-        closeReelIfBackdrop(e) {
-          if (e.target.classList.contains('modal')) {
-            this.closeReel();
-          }
-        },
-        initSlider() {
-          this.slider.autoPlayInterval = setInterval(() => {
-            this.nextSlide();
-          }, 4000);
-        },
-        nextSlide() {
-          this.slider.currentIndex = (this.slider.currentIndex + 1) % this.slider.slides.length;
-        },
-        prevSlide() {
-          this.slider.currentIndex = (this.slider.currentIndex - 1 + this.slider.slides.length) % this.slider.slides.length;
-        },
-        goToSlide(index) {
-          this.slider.currentIndex = index;
-        },
-        openLightbox(slide) {
-          this.lightbox.imageSrc = slide.src;
-          this.lightbox.caption = slide.alt;
-          this.lightbox.isOpen = true;
-          document.body.style.overflow = 'hidden';
-        },
-        closeLightbox() {
-          this.lightbox.isOpen = false;
-          document.body.style.overflow = '';
-        },
-        closeLightboxIfBackdrop(e) {
-          if (e.target.classList.contains('lightbox-modal')) {
-            this.closeLightbox();
-          }
-        },
-        initKeyboardControls() {
-          document.addEventListener('keydown', (e) => {
-            if (this.lightbox.isOpen && e.key === 'Escape') {
-              this.closeLightbox();
-            }
-            if (!this.lightbox.isOpen) {
-              if (e.key === 'ArrowLeft') {
-                this.prevSlide();
-              } else if (e.key === 'ArrowRight') {
-                this.nextSlide();
-              }
-            }
-          });
-        },
-        initWebGL() {
-          const canvas = document.getElementById("bg");
-          const gl = canvas.getContext("webgl2", { antialias: true, alpha: false, premultipliedAlpha: false });
-
-          const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-          if (!gl || prefersReduced) {
-            canvas.style.display = "none";
-            document.body.style.background =
-              "radial-gradient(1200px 800px at 30% 10%, rgba(90,120,255,.14), transparent 60%)," +
-              "radial-gradient(900px 700px at 70% 40%, rgba(255,255,255,.06), transparent 55%)," +
-              "linear-gradient(#07080b, #07080b)";
-            return;
-          }
-
-          const vert = `#version 300 es
-          in vec2 a_pos;
-          out vec2 v_uv;
-          void main(){
-            v_uv = a_pos * 0.5 + 0.5;
-            gl_Position = vec4(a_pos, 0.0, 1.0);
-          }`;
-
-          const frag = `#version 300 es
-          precision highp float;
-          out vec4 outColor;
-          in vec2 v_uv;
-
-          uniform vec2 u_res;
-          uniform float u_time;
-          uniform vec2 u_mouse;
-          uniform float u_scroll;
-
-          float hash(vec2 p){
-            p = fract(p*vec2(123.34, 456.21));
-            p += dot(p, p+45.32);
-            return fract(p.x*p.y);
-          }
-          float noise(vec2 p){
-            vec2 i = floor(p);
-            vec2 f = fract(p);
-            float a = hash(i);
-            float b = hash(i + vec2(1.0, 0.0));
-            float c = hash(i + vec2(0.0, 1.0));
-            float d = hash(i + vec2(1.0, 1.0));
-            vec2 u = f*f*(3.0-2.0*f);
-            return mix(a,b,u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y;
-          }
-          float fbm(vec2 p){
-            float v = 0.0;
-            float a = 0.55;
-            for(int i=0;i<5;i++){
-              v += a * noise(p);
-              p *= 2.02;
-              a *= 0.5;
-            }
-            return v;
-          }
-
-          void main(){
-            vec2 uv = v_uv;
-            vec2 p = (uv - 0.5);
-            p.x *= u_res.x / u_res.y;
-
-            vec2 m = u_mouse - 0.5;
-            m.x *= u_res.x / u_res.y;
-
-            float t = u_time * 0.22;
-
-            float n1 = fbm(p*2.6 + vec2(t, -t*0.7) + m*0.9);
-            float n2 = fbm(p*4.2 + vec2(-t*0.8, t) - m*0.6);
-            float flow = n1*0.65 + n2*0.35;
-
-            float lines = abs(sin((p.y + flow*0.55 + u_scroll*0.9) * 10.0 + p.x*2.0));
-            lines = smoothstep(0.10, 0.0, lines);
-
-            float d = length(p - m*0.7);
-            float glow = smoothstep(0.55, 0.0, d) * 0.55;
-
-            float vign = smoothstep(1.2, 0.2, length(p));
-            float grain = noise(uv*u_res*0.35 + u_time) * 0.05;
-
-            vec3 base = vec3(0.03, 0.035, 0.045);
-            vec3 ink  = vec3(0.92);
-            vec3 tint = vec3(0.22, 0.32, 0.95);
-
-            vec3 col = base;
-            col += (ink * (lines*0.65 + glow*0.35)) * vign;
-            col += tint * (flow*0.10 + glow*0.12);
-            col += grain;
-
-            col = clamp(col, 0.0, 1.0);
-            outColor = vec4(col, 1.0);
-          }`;
-
-          function compile(type, src) {
-            const s = gl.createShader(type);
-            gl.shaderSource(s, src);
-            gl.compileShader(s);
-            if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-              console.error(gl.getShaderInfoLog(s));
-              gl.deleteShader(s);
-              return null;
-            }
-            return s;
-          }
-          const vs = compile(gl.VERTEX_SHADER, vert);
-          const fs = compile(gl.FRAGMENT_SHADER, frag);
-          const prog = gl.createProgram();
-          gl.attachShader(prog, vs);
-          gl.attachShader(prog, fs);
-          gl.linkProgram(prog);
-          if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-            console.error(gl.getProgramInfoLog(prog));
-          }
-          gl.useProgram(prog);
-
-          const buf = gl.createBuffer();
-          gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-            -1, -1, 1, -1, -1, 1,
-            -1, 1, 1, -1, 1, 1
-          ]), gl.STATIC_DRAW);
-
-          const aPos = gl.getAttribLocation(prog, "a_pos");
-          gl.enableVertexAttribArray(aPos);
-          gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-          const uRes = gl.getUniformLocation(prog, "u_res");
-          const uTime = gl.getUniformLocation(prog, "u_time");
-          const uMouse = gl.getUniformLocation(prog, "u_mouse");
-          const uScroll = gl.getUniformLocation(prog, "u_scroll");
-
-          let mx = 0.5, my = 0.5;
-          window.addEventListener("pointermove", (e) => {
-            mx = e.clientX / window.innerWidth;
-            my = 1.0 - e.clientY / window.innerHeight;
-          }, { passive: true });
-
-          function resize() {
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            canvas.width = Math.floor(window.innerWidth * dpr);
-            canvas.height = Math.floor(window.innerHeight * dpr);
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-            gl.viewport(0, 0, canvas.width, canvas.height);
-            gl.uniform2f(uRes, canvas.width, canvas.height);
-          }
-          window.addEventListener("resize", resize);
-          resize();
-
-          function getScroll01() {
-            const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-            return window.scrollY / max;
-          }
-
-          let t0 = performance.now();
-          function frame(now) {
-            const t = (now - t0) / 1000;
-            gl.uniform1f(uTime, t);
-            gl.uniform2f(uMouse, mx, my);
-            gl.uniform1f(uScroll, getScroll01());
-            gl.drawArrays(gl.TRIANGLES, 0, 6);
-            requestAnimationFrame(frame);
-          }
-          requestAnimationFrame(frame);
-        }
+      currentTime: '--:--:--',
+      currentYear: new Date().getFullYear(),
+      weather: { temp: '--', description: '—' },
+      toast: { show: false, text: 'Copied!' },
+      reel: { isOpen: false },
+      lightbox: { isOpen: false, imageSrc: '', caption: '' },
+      slider: {
+        currentIndex: 0,
+        slides: [
+          { src: 'images/works/axistek.png', alt: 'Axistek 企業官網設計' },
+          { src: 'images/works/silicon-sky.jpg', alt: 'Silicon Sky 產品頁面' },
+          { src: 'images/works/S__15106073.jpg', alt: '企業形象網站設計' }
+        ],
+        autoPlayInterval: null
       }
-    }).mount('#app');
-  </script>
+    };
+  },
+  mounted() {
+    this.initTime();
+    this.loadWeather();
+    this.initSlider();
+    this.initWebGL();
+    this.initKeyboardControls();
+  },
+  beforeUnmount() {
+    if (this.slider.autoPlayInterval) clearInterval(this.slider.autoPlayInterval);
+  },
+  methods: {
+    initTime() {
+      const update = () => {
+        const d = new Date(), p = n => String(n).padStart(2,'0');
+        this.currentTime = `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+      };
+      update(); setInterval(update, 1000);
+    },
+    async loadWeather() {
+      try {
+        const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${this.profile.weatherLat}&longitude=${this.profile.weatherLon}&current_weather=true`, { cache: 'no-store' });
+        const d = await r.json();
+        if (!d.current_weather) return;
+        this.weather.temp = Math.round(d.current_weather.temperature);
+        const m = {0:'Clear',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Fog',51:'Drizzle',53:'Drizzle',55:'Drizzle',61:'Rain',63:'Rain',65:'Rain',71:'Snow',73:'Snow',75:'Snow',80:'Rain',81:'Rain',82:'Rain',95:'Thunder',96:'Thunder',99:'Thunder'};
+        this.weather.description = m[d.current_weather.weathercode] ?? 'Weather';
+      } catch(e) {}
+      setTimeout(() => this.loadWeather(), 3600000);
+    },
+    async copyEmail() {
+      try { await navigator.clipboard.writeText(this.profile.email); }
+      catch(e) { const t = document.createElement('textarea'); t.value = this.profile.email; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+      this.showToast('Copied!');
+    },
+    showToast(text) { this.toast.text = text; this.toast.show = true; setTimeout(() => this.toast.show = false, 1200); },
+    openReel() { this.reel.isOpen = true; if (this.$refs.reelVideo && this.profile.reelMp4Url) this.$refs.reelVideo.load(); },
+    closeReel() { this.reel.isOpen = false; try { this.$refs.reelVideo?.pause(); } catch(e) {} },
+    closeReelIfBackdrop(e) { if (e.target.classList.contains('modal')) this.closeReel(); },
+    initSlider() { this.slider.autoPlayInterval = setInterval(() => this.nextSlide(), 4000); },
+    nextSlide() { this.slider.currentIndex = (this.slider.currentIndex + 1) % this.slider.slides.length; },
+    prevSlide() { this.slider.currentIndex = (this.slider.currentIndex - 1 + this.slider.slides.length) % this.slider.slides.length; },
+    goToSlide(i) { this.slider.currentIndex = i; },
+    openLightbox(slide) { this.lightbox.imageSrc = slide.src; this.lightbox.caption = slide.alt; this.lightbox.isOpen = true; document.body.style.overflow = 'hidden'; },
+    closeLightbox() { this.lightbox.isOpen = false; document.body.style.overflow = ''; },
+    closeLightboxIfBackdrop(e) { if (e.target.classList.contains('lightbox-modal')) this.closeLightbox(); },
+    initKeyboardControls() {
+      document.addEventListener('keydown', e => {
+        if (this.lightbox.isOpen && e.key === 'Escape') { this.closeLightbox(); return; }
+        if (e.key === 'ArrowLeft') this.prevSlide();
+        else if (e.key === 'ArrowRight') this.nextSlide();
+      });
+    },
+    initWebGL() {
+      const canvas = document.getElementById('bg');
+      const gl = canvas.getContext('webgl2', { antialias: true, alpha: false });
+      if (!gl || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        canvas.style.display = 'none';
+        document.body.style.background = 'radial-gradient(1200px 800px at 30% 10%, rgba(90,120,255,.14), transparent 60%),radial-gradient(900px 700px at 70% 40%, rgba(255,255,255,.06), transparent 55%),linear-gradient(#07080b, #07080b)';
+        return;
+      }
+      const vert = `#version 300 es\nin vec2 a_pos;\nout vec2 v_uv;\nvoid main(){\nv_uv = a_pos * 0.5 + 0.5;\ngl_Position = vec4(a_pos, 0.0, 1.0);\n}`;
+      const frag = `#version 300 es\nprecision highp float;\nout vec4 outColor;\nin vec2 v_uv;\nuniform vec2 u_res;\nuniform float u_time;\nuniform vec2 u_mouse;\nuniform float u_scroll;\nfloat hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}\nfloat noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);float a=hash(i);float b=hash(i+vec2(1,0));float c=hash(i+vec2(0,1));float d=hash(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}\nfloat fbm(vec2 p){float v=0.;float a=.55;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.02;a*=.5;}return v;}\nvoid main(){vec2 uv=v_uv;vec2 p=(uv-.5);p.x*=u_res.x/u_res.y;vec2 m=u_mouse-.5;m.x*=u_res.x/u_res.y;float t=u_time*.22;float n1=fbm(p*2.6+vec2(t,-t*.7)+m*.9);float n2=fbm(p*4.2+vec2(-t*.8,t)-m*.6);float flow=n1*.65+n2*.35;float lines=abs(sin((p.y+flow*.55+u_scroll*.9)*10.+p.x*2.));lines=smoothstep(.10,.0,lines);float d=length(p-m*.7);float glow=smoothstep(.55,.0,d)*.55;float vign=smoothstep(1.2,.2,length(p));float grain=noise(uv*u_res*.35+u_time)*.05;vec3 base=vec3(.03,.035,.045);vec3 ink=vec3(.92);vec3 tint=vec3(.22,.32,.95);vec3 col=base;col+=(ink*(lines*.65+glow*.35))*vign;col+=tint*(flow*.10+glow*.12);col+=grain;col=clamp(col,0.,1.);outColor=vec4(col,1.);}`;
+      const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+      const vs = compile(gl.VERTEX_SHADER, vert);
+      const fs = compile(gl.FRAGMENT_SHADER, frag);
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog); gl.useProgram(prog);
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+      const aPos = gl.getAttribLocation(prog, 'a_pos');
+      gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+      const uRes = gl.getUniformLocation(prog,'u_res'), uTime = gl.getUniformLocation(prog,'u_time'), uMouse = gl.getUniformLocation(prog,'u_mouse'), uScroll = gl.getUniformLocation(prog,'u_scroll');
+      let mx=.5, my=.5;
+      window.addEventListener('pointermove', e => { mx=e.clientX/window.innerWidth; my=1-e.clientY/window.innerHeight; }, {passive:true});
+      const resize = () => { const dpr=Math.min(window.devicePixelRatio||1,2); canvas.width=Math.floor(window.innerWidth*dpr); canvas.height=Math.floor(window.innerHeight*dpr); canvas.style.width='100%'; canvas.style.height='100%'; gl.viewport(0,0,canvas.width,canvas.height); gl.uniform2f(uRes,canvas.width,canvas.height); };
+      window.addEventListener('resize', resize); resize();
+      const getScroll = () => window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const t0 = performance.now();
+      const frame = now => { const t=(now-t0)/1000; gl.uniform1f(uTime,t); gl.uniform2f(uMouse,mx,my); gl.uniform1f(uScroll,getScroll()); gl.drawArrays(gl.TRIANGLES,0,6); requestAnimationFrame(frame); };
+      requestAnimationFrame(frame);
+    }
+  }
+}).mount('#app');
+</script>
 </body>
-
 </html>
-
