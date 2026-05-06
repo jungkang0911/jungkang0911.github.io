@@ -937,6 +937,141 @@
   const character = document.querySelector('.character');
   if (character) character.style.cursor = 'none';
 
+  // ============= PROJECT MODAL =============
+  const projects = {
+    'yunxiang': {
+      title: '雲想旅遊 · 一站式觀光平台',
+      cat: 'Brand · Web Design · Multi-page · 2024',
+      desc: '為雲想旅遊打造的奢華旅程預訂平台。從品牌調性到多頁互動全程主導：首頁、品牌故事、行程詳情、會員制度，整套深度旅遊體驗在一個介面裡走完。',
+      highlights: [
+        '暗色 + 金色奢華視覺系統，扣緊「黃金時刻」品牌語彙',
+        '首頁、關於我們、行程詳情、線上預訂等多頁完整體驗',
+        '精選目的地（Bangkok / Da Nang / Kyoto / Tokyo…）卡片網格',
+        '行程詳情頁包含每日 Itinerary、價格方案比較、注意事項與 FAQ',
+        '繁體中文 × Fraunces 義大利體混排排版系統，強化奢華語彙'
+      ],
+      link: ''
+    },
+    'ai-agent': {
+      title: 'AI Agent 企業自動化',
+      cat: 'Node.js · MCP · Chrome CDP · 2025',
+      desc: '設計並實作企業系統 AI Agent，以自然語言驅動網頁操作，並具備自我修復能力——能偵測非預期狀態（彈窗、Session 逾時）後自動截圖分析並決策修復路徑。',
+      highlights: [
+        'Node.js + MCP Server 整合 Chrome CDP，支援自然語言驅動網頁操作',
+        'AI 自我修復機制：自動截圖 → 分析 → 決策修復路徑',
+        '執行完成後自動產出結構化報告，完整記錄每步 AI 決策軌跡',
+        '不只是功能展示，而是讓 AI 能力真的被用上、然後穩定跑下去'
+      ],
+      link: ''
+    },
+    'rpa': {
+      title: 'RPA 替代架構（n8n + AI Agent + MCP）',
+      cat: 'Workflow · n8n · 2025 — In progress',
+      desc: '獨立規劃以 n8n 為核心、搭配 AI Agent、Browser / Login / Desktop MCP 與 Node.js Tool Service 的 RPA 替代架構，把傳統 RPA 拆分為流程編排、AI 決策、工具執行與專用服務四層。',
+      highlights: [
+        '完成首隻機器人替換可行性驗證，分階段替換路徑已規劃',
+        'Phase 2 預估年省授權費 $38.2 萬（含稅）',
+        '現有 11 條 RPA 流程逐步遷移中',
+        '大幅提升流程彈性與後續可維護性'
+      ],
+      link: ''
+    },
+    'middleware': {
+      title: 'Middleware 高併發瓶頸改善',
+      cat: '非同步改寫 · Kong · 2025',
+      desc: '獨立主導對外 Middleware 高併發穩定性優化。原架構即使擴充至 10 個 Pod 仍反覆 restart，問題延宕 8 年。壓測確認瓶頸並非資源不足，而是同步程式模型與 Linux inotify I/O limit。',
+      highlights: [
+        '系統穩定承載從 20,000 RPM 提升至 30,000–40,000 RPM',
+        'Pod 數量由 10 個降至 3 個，CPU / Memory 仍僅約 30%',
+        '新建 Ziddleware 分流中繼平台，搭配 Kong 路由隔離高流量',
+        'App 端零修改即完成升級',
+        '對外服務由單點架構改為分流隔離，全面消除單一熱點風險'
+      ],
+      link: ''
+    },
+    'ocr': {
+      title: 'OCR / Document AI 落地',
+      cat: 'Deep Learning · Pipeline · 2025',
+      desc: '自主發現業務痛點——現有 OCR 辨識率不足、ABBYY 授權斷供——從規劃替代方案、PoC 取得高階主管支持，到深度學習模型訓練、影像前處理、欄位辨識、結果回寫，全流程獨立完成。',
+      highlights: [
+        '落地場景：身分證正反面、行照、健保卡、台灣電費單',
+        '約 5,000 份樣本整體辨識率 >98%',
+        '處理客戶手機自拍非受控環境——歪斜、光線、反光、模糊',
+        '完整 pipeline：影像前處理 → 欄位定位裁切 → 辨識 → 系統回寫'
+      ],
+      link: ''
+    },
+    'video': {
+      title: '一鍵影片生成 Workflow',
+      cat: '個人實作 · n8n · 2025',
+      desc: '私下做的影片自動化生成工作流，整合 STT、TTS 與 Remotion 程式化動態影片渲染。一個 workflow 從輸入到輸出影片全自動。',
+      highlights: [
+        'STT 將輸入素材轉為文字稿',
+        'AI 處理腳本，TTS 重新合成配音',
+        'Remotion 程式化生成動態影片畫面',
+        'n8n 串接整段流程，一鍵觸發完成'
+      ],
+      link: ''
+    },
+    'app': {
+      title: '申購計算機 Android App',
+      cat: 'AI 全程代勞 · Android · 2025',
+      desc: '驗證以自然語言驅動 AI 完成「從產品設計、開發到發布」完整交付能力的個人實驗——本人未寫一行程式碼。',
+      highlights: [
+        '4 天完成完整 App 並上架 Google Play',
+        'AI 處理 UI 設計、邏輯、原生 Android 開發',
+        '本人專注於需求釐清、決策與成果驗證',
+        '驗證 AI 自然語言驅動的完整交付鏈可行性'
+      ],
+      link: ''
+    }
+  };
+
+  const modal = document.getElementById('modal');
+  const modalClose = document.getElementById('modalClose');
+  const modalCat = document.getElementById('modalCat');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalHighlights = document.getElementById('modalHighlights');
+  const modalLink = document.getElementById('modalLink');
+
+  function openModal(id) {
+    const p = projects[id];
+    if (!p) return;
+    modalCat.textContent = p.cat;
+    modalTitle.textContent = p.title;
+    modalDesc.textContent = p.desc;
+    modalHighlights.innerHTML = p.highlights.map(h => '<li>' + h + '</li>').join('');
+    if (p.link) {
+      modalLink.href = p.link;
+      modalLink.hidden = false;
+    } else {
+      modalLink.hidden = true;
+    }
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.work-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = card.getAttribute('data-id');
+      if (id) openModal(id);
+    });
+  });
+  modalClose.addEventListener('click', closeModal);
+  modal.querySelector('.modal-backdrop').addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+
   // ============= REVEAL ON SCROLL =============
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
