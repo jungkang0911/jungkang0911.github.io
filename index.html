@@ -1,659 +1,953 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Jung Kang</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JUNGKANG0911 康家榮｜AI Agent、MCP、n8n 自動化與系統整合</title>
+<meta name="description" content="JUNGKANG0911 康家榮的個人網站。10 年企業系統整合經驗，專注 AI Agent、MCP、n8n workflow、OCR / Document AI、Middleware 高併發優化與流程自動化落地。" />
+<meta name="keywords" content="JUNGKANG,JUNGKANG0911,康家榮,AI Agent,MCP,n8n,系統整合,流程自動化,OCR,Document AI,Middleware,個人網站,作品集" />
+<meta name="author" content="JUNGKANG0911 康家榮" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#f3efe6" />
+<link rel="canonical" href="https://jungkang0911.github.io/" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="zh_TW" />
+<meta property="og:site_name" content="JUNGKANG0911" />
+<meta property="og:title" content="JUNGKANG0911 康家榮｜AI Agent 與系統整合作品集" />
+<meta property="og:description" content="JUNGKANG0911 康家榮的個人網站，聚焦 AI 落地、MCP、n8n workflow、企業自動化與 Middleware 架構優化。" />
+<meta property="og:url" content="https://jungkang0911.github.io/" />
+<meta property="og:image" content="https://jungkang0911.github.io/assets/images/jungkang-character.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="JUNGKANG0911 康家榮｜AI Agent 與系統整合作品集" />
+<meta name="twitter:description" content="10 年企業系統整合經驗，專注 AI Agent、MCP、n8n 自動化與可落地的系統架構。" />
+<meta name="twitter:image" content="https://jungkang0911.github.io/assets/images/jungkang-character.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
 
-    :root {
-      --bg: #07080b;
-      --surface: #10131a;
-      --surface2: #161b25;
-      --border: rgba(255,255,255,0.07);
-      --border2: rgba(255,255,255,0.12);
-      --text: #dde2ee;
-      --muted: #6b7585;
-      --dim: #3d4455;
-      --accent: #6d8fff;
-      --accent2: #a78bfa;
-      --green: #4ade80;
-      --font: 'Inter', system-ui, sans-serif;
-      --mono: 'IBM Plex Mono', monospace;
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://jungkang0911.github.io/#person",
+      "name": "康家榮",
+      "alternateName": ["JUNGKANG", "JUNGKANG0911"],
+      "email": "mailto:jungkang0911@gmail.com",
+      "jobTitle": "AI Automation and System Integration Engineer",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Taipei",
+        "addressCountry": "TW"
+      },
+      "knowsAbout": [
+        "AI Agent",
+        "Model Context Protocol",
+        "n8n Workflow Automation",
+        "System Integration",
+        "OCR",
+        "Document AI",
+        "Middleware Architecture"
+      ],
+      "url": "https://jungkang0911.github.io/",
+      "image": "https://jungkang0911.github.io/assets/images/jungkang-character.svg"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://jungkang0911.github.io/#website",
+      "url": "https://jungkang0911.github.io/",
+      "name": "JUNGKANG0911 康家榮個人網站",
+      "inLanguage": "zh-Hant-TW",
+      "publisher": { "@id": "https://jungkang0911.github.io/#person" }
     }
+  ]
+}
+</script>
+<style>
+  :root {
+    --bg: #f3efe6;
+    --bg-2: #ebe5d6;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --accent: #ff5b2e;
+    --accent-2: #2a2af0;
+    --line: rgba(26, 26, 26, 0.12);
+  }
 
-    html { scroll-behavior: smooth; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', 'Noto Sans TC', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font);
-      font-size: 15px;
-      line-height: 1.6;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 14px; height: 14px;
+    background: var(--ink);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, background 0.2s ease, width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor.hover { width: 48px; height: 48px; background: var(--accent); }
 
-    a { color: inherit; text-decoration: none; }
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(0,0,0,0.04) 1px, transparent 0);
+    background-size: 4px 4px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+  }
 
-    /* ── WebGL Canvas ── */
-    #bg {
-      position: fixed; inset: 0;
-      width: 100%; height: 100%;
-      z-index: 0; display: block;
-    }
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
+    color: #fff;
+  }
+  nav .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  nav .links { display: flex; gap: 32px; }
+  nav a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    position: relative;
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+  nav a:hover::after { width: 100%; }
 
-    /* ── Toast ── */
-    .toast {
-      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(12px);
-      background: var(--surface2); border: 1px solid var(--border2);
-      color: var(--text); font-size: 13px; padding: 8px 18px; border-radius: 20px;
-      opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 999;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 120px 40px 80px;
+    position: relative;
+    gap: 40px;
+  }
+  .hero-text {
+    flex: 1;
+    z-index: 2;
+    max-width: 720px;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.6; }
+  }
 
-    /* ── Lightbox ── */
-    .lightbox-modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,.85);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 900; opacity: 0; pointer-events: none; transition: opacity .2s;
-    }
-    .lightbox-modal.show { opacity: 1; pointer-events: all; }
-    .lightbox-content { position: relative; max-width: 90vw; max-height: 90vh; }
-    .lightbox-content img { max-width: 100%; max-height: 85vh; border-radius: 8px; display: block; }
-    .lightbox-close {
-      position: absolute; top: -36px; right: 0;
-      background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 4px 8px;
-    }
-    .lightbox-caption { color: var(--muted); font-size: 13px; text-align: center; margin-top: 10px; }
+  .hero h1 {
+    font-family: 'Fraunces', 'Noto Sans TC', serif;
+    font-weight: 400;
+    font-size: clamp(56px, 9vw, 140px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+  .hero h1 .outline {
+    -webkit-text-stroke: 1.5px var(--ink);
+    color: transparent;
+  }
+  .hero p.lead {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 28px;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    border-radius: 100px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .hero-cta:hover { background: var(--accent); transform: translateY(-2px); }
+  .icon-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+  .hero-cta:hover .icon-arrow { transform: translateX(4px); }
 
-    /* ── Topbar ── */
-    .topbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 28px; height: 44px;
-      background: rgba(7,8,11,0.6); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .topbar .left, .topbar .right { display: flex; align-items: center; gap: 8px; }
-    .pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-family: var(--mono); font-size: 11px; color: var(--muted);
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      padding: 3px 9px; border-radius: 20px;
-    }
-    .pill.link { cursor: pointer; transition: color .15s, border-color .15s; }
-    .pill.link:hover { color: var(--text); border-color: var(--border2); }
-    .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-    .topbar .right { gap: 16px; }
-    .topbar .right a { font-size: 13px; color: var(--muted); transition: color .15s; }
-    .topbar .right a:hover { color: var(--text); }
-    .topbar .right button {
-      font-size: 12px; font-family: var(--mono); color: var(--accent);
-      background: rgba(109,143,255,0.08); border: 1px solid rgba(109,143,255,0.2);
-      padding: 4px 12px; border-radius: 6px; cursor: pointer; transition: all .15s;
-    }
-    .topbar .right button:hover { background: rgba(109,143,255,0.15); }
+  /* CHARACTER */
+  .character-wrap {
+    flex: 1;
+    max-width: 540px;
+    aspect-ratio: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .character {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .float { animation: float 5s ease-in-out infinite; transform-origin: center; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  .breathe { animation: breathe 4s ease-in-out infinite; transform-origin: center; }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.015); }
+  }
 
-    /* ── Reel Modal ── */
-    .modal {
-      position: fixed; inset: 0; background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 800; opacity: 0; pointer-events: none; transition: opacity .2s;
-    }
-    .modal.open { opacity: 1; pointer-events: all; }
-    .panel {
-      background: var(--surface); border: 1px solid var(--border2);
-      border-radius: 12px; overflow: hidden; width: min(720px, 92vw);
-    }
-    .panelHead {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 16px; border-bottom: 1px solid var(--border);
-      font-family: var(--mono); font-size: 12px; color: var(--muted);
-    }
-    .panelHead button {
-      background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; padding: 2px 6px;
-    }
-    .panel video { width: 100%; display: block; max-height: 60vh; }
+  /* Marquee scroll */
+  .marquee {
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    padding: 28px 0;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    width: max-content;
+    animation: scroll 40s linear infinite;
+  }
+  .marquee span {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 300;
+    font-style: italic;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+  }
+  .marquee span::after {
+    content: '✦';
+    color: var(--accent);
+    margin-left: 60px;
+    font-style: normal;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 
-    /* ── Layout ── */
-    .wrap {
-      position: relative; z-index: 10;
-      max-width: 860px; margin: 0 auto;
-      padding: 100px 28px 60px;
-    }
+  /* SECTIONS */
+  section { padding: 140px 40px; position: relative; z-index: 2; }
+  .section-label {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--ink);
+  }
+  .section-title {
+    font-family: 'Fraunces', 'Noto Sans TC', serif;
+    font-weight: 400;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 1100px;
+    margin-bottom: 80px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
 
-    /* ── Hero ── */
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .about-text p {
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .about-text strong { color: var(--ink); font-weight: 500; }
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .skill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 16px;
+  }
+  .skill-row span:first-child {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+  }
+  .skill-row span:last-child {
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  /* PORTFOLIO */
+  .work {
+    background: var(--bg-2);
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .work-card {
+    background: var(--bg);
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: none;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+  .work-card:hover { transform: translateY(-8px); }
+  .work-card.tall { grid-row: span 1; }
+  .work-card.featured { grid-column: span 2; }
+  .work-card.featured .work-thumb { aspect-ratio: 16/7; }
+  @media (max-width: 900px) {
+    .work-card.featured { grid-column: span 1; }
+    .work-card.featured .work-thumb { aspect-ratio: 4/3; }
+  }
+  .work-thumb {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #ffd6c0 0%, #ff5b2e 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .work-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .work-card:hover .work-thumb img { transform: scale(1.05); }
+  .work-info {
+    padding: 28px 32px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .work-info h3 {
+    font-family: 'Fraunces', 'Noto Sans TC', serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .work-info p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .work-arrow {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .work-card:hover .work-arrow { background: var(--accent); transform: rotate(-45deg); }
+
+  /* Different gradients per card */
+  .work-thumb.g1 { background: linear-gradient(135deg, #ffd6c0 0%, #ff5b2e 100%); }
+  .work-thumb.g2 { background: linear-gradient(135deg, #cdd5ff 0%, #2a2af0 100%); }
+  .work-thumb.g3 { background: linear-gradient(135deg, #f3efe6 0%, #1a1a1a 100%); }
+  .work-thumb.g4 { background: linear-gradient(135deg, #d8f5c4 0%, #4ea843 100%); }
+  .work-thumb.g5 { background: linear-gradient(135deg, #ffe7a3 0%, #d97706 100%); }
+  .work-thumb.g6 { background: linear-gradient(135deg, #f5c4e8 0%, #c026d3 100%); }
+
+  /* CONTACT */
+  .contact {
+    background: var(--ink);
+    color: var(--bg);
+    text-align: center;
+    padding: 160px 40px;
+  }
+  .contact .section-label { color: rgba(243,239,230,0.6); }
+  .contact .section-label::before { background: var(--bg); }
+  .contact-title {
+    font-family: 'Fraunces', 'Noto Sans TC', serif;
+    font-weight: 300;
+    font-size: clamp(56px, 10vw, 160px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin: 0 auto 60px;
+    max-width: 1400px;
+  }
+  .contact-title em { color: var(--accent); font-style: italic; }
+  .contact-email {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: var(--bg);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(243,239,230,0.3);
+    padding-bottom: 8px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+  .contact-socials {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-top: 80px;
+    flex-wrap: wrap;
+  }
+  .contact-socials a {
+    color: rgba(243,239,230,0.7);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .contact-socials a:hover { color: var(--accent); }
+
+  footer {
+    padding: 32px 40px;
+    background: var(--ink);
+    color: rgba(243,239,230,0.5);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(243,239,230,0.1);
+  }
+
+  /* MODAL */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .modal.open { display: flex; }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(26,26,26,0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-content {
+    position: relative;
+    background: var(--bg);
+    border-radius: 28px;
+    max-width: 720px;
+    width: 100%;
+    padding: 56px 56px 48px;
+    max-height: 85vh;
+    overflow-y: auto;
+    z-index: 1;
+    animation: modalIn 0.5s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.25);
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px; right: 18px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    font-size: 22px;
+    cursor: none;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s, transform 0.3s;
+    font-family: inherit;
+    line-height: 1;
+  }
+  .modal-close:hover { background: var(--accent); transform: rotate(90deg); }
+  .modal-cat {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .modal-cat::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--ink);
+  }
+  .modal-title {
+    font-family: 'Fraunces', 'Noto Sans TC', serif;
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .modal-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+  }
+  .modal-highlights {
+    list-style: none;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin: 0;
+  }
+  .modal-highlights li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .modal-highlights li::before {
+    content: '✦';
+    position: absolute;
+    left: 0; top: 0;
+    color: var(--accent);
+    font-size: 14px;
+  }
+  .modal-highlights li:last-child { margin-bottom: 0; }
+  .modal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+    padding: 14px 24px;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .modal-link:hover { background: var(--accent); transform: translateY(-2px); }
+  @media (max-width: 600px) {
+    .modal-content { padding: 48px 28px 32px; border-radius: 20px; }
+    .modal { padding: 20px; }
+  }
+
+  /* Reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    body { cursor: auto; }
+    .cursor { display: none; }
+    nav { padding: 18px 20px; }
+    nav .links { gap: 18px; }
+    nav .links a:not(.contact-link) { display: none; }
     .hero {
-      min-height: 70vh; display: flex; flex-direction: column;
-      justify-content: center; padding: 60px 0 80px;
+      flex-direction: column-reverse;
+      padding: 120px 20px 60px;
+      text-align: left;
     }
-    .hero-label {
-      font-family: var(--mono); font-size: 11px; color: var(--accent);
-      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-size: clamp(36px, 6vw, 64px); font-weight: 600;
-      line-height: 1.15; letter-spacing: -1.5px; color: #f0f2f8;
-      margin-bottom: 12px;
-    }
-    .hero h1 em { font-style: normal; color: var(--accent); }
-    .hero-sub {
-      font-size: 17px; color: var(--muted); line-height: 1.7;
-      max-width: 52ch; margin-bottom: 40px;
-    }
-    .hero-meta {
-      display: flex; flex-wrap: wrap; gap: 10px;
-    }
-    .tag {
-      font-size: 12px; font-family: var(--mono);
-      color: var(--muted); border: 1px solid var(--border);
-      padding: 4px 12px; border-radius: 20px;
-      transition: color .15s, border-color .15s;
-    }
-    .tag:hover { color: var(--text); border-color: var(--border2); }
-
-    /* ── Section ── */
-    section { padding: 80px 0; border-top: 1px solid var(--border); }
-    .sec-label {
-      font-family: var(--mono); font-size: 11px; color: var(--muted);
-      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px;
-    }
-
-    /* ── What I Do ── */
-    .capabilities { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .cap {
-      background: var(--surface); padding: 28px 24px;
-      transition: background .15s;
-    }
-    .cap:hover { background: var(--surface2); }
-    .cap-num { font-family: var(--mono); font-size: 11px; color: var(--dim); margin-bottom: 16px; }
-    .cap h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; line-height: 1.4; }
-    .cap p { font-size: 13px; color: var(--muted); line-height: 1.65; }
-
-    /* ── Numbers ── */
-    .numbers { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .num-item { background: var(--surface); padding: 28px 20px; }
-    .num-val { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 8px; }
-    .num-val span { color: var(--accent); }
-    .num-label { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
-    /* ── Work ── */
-    .work-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
-    .work-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 24px;
-      transition: border-color .2s, background .2s;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .work-card:hover { border-color: var(--border2); background: var(--surface2); }
-    .work-card-wide { grid-column: span 2; }
-    .work-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .work-tag {
-      font-size: 11px; font-family: var(--mono); color: var(--muted);
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      padding: 2px 8px; border-radius: 4px;
-    }
-    .work-card h3 { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; }
-    .work-card p { font-size: 13px; color: var(--muted); line-height: 1.65; flex: 1; }
-    .work-card .work-link {
-      font-size: 12px; font-family: var(--mono); color: var(--accent);
-      display: inline-flex; align-items: center; gap: 4px;
-      margin-top: auto;
-    }
-    .work-card .work-link:hover { text-decoration: underline; }
-    .work-img {
-      width: 100%; height: auto; border-radius: 8px;
-      border: 1px solid var(--border); display: block;
-    }
-
-    /* Image Slider */
-    .image-slider { position: relative; }
-    .slider-container { overflow: hidden; border-radius: 8px; border: 1px solid var(--border); }
-    .slider-track { display: flex; }
-    .slide { min-width: 100%; display: none; }
-    .slide.active { display: block; }
-    .slide img { width: 100%; height: auto; display: block; cursor: pointer; }
-    .slider-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 12px; }
-    .slider-btn {
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--muted); width: 28px; height: 28px; border-radius: 50%;
-      cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
-      transition: all .15s;
-    }
-    .slider-btn:hover { border-color: var(--border2); color: var(--text); }
-    .slider-dots { display: flex; gap: 6px; }
-    .slider-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--dim); cursor: pointer; transition: background .15s; }
-    .slider-dot.active { background: var(--accent); }
-
-    /* ── About ── */
-    .about-text {
-      font-size: 17px; color: var(--muted); line-height: 1.9;
-      max-width: 62ch;
-    }
-    .about-text p { margin-bottom: 1.4em; }
-    .about-text p:last-child { margin-bottom: 0; }
-    .about-text strong { color: var(--text); font-weight: 500; }
-
-    /* ── Contact ── */
-    .contact-wrap { display: flex; flex-direction: column; gap: 20px; }
-    .contact-line { font-size: 22px; color: var(--text); font-weight: 500; }
-    .contact-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn-primary {
-      font-size: 13px; font-family: var(--mono);
-      background: rgba(109,143,255,0.12); border: 1px solid rgba(109,143,255,0.25);
-      color: var(--accent); padding: 8px 18px; border-radius: 8px;
-      cursor: pointer; transition: all .15s;
-    }
-    .btn-primary:hover { background: rgba(109,143,255,0.2); }
-
-    /* ── Footer ── */
-    footer {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 28px 0; border-top: 1px solid var(--border);
-      font-size: 12px; font-family: var(--mono); color: var(--dim);
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 640px) {
-      .topbar .left .pill:nth-child(n+3) { display: none; }
-      .capabilities { grid-template-columns: 1fr; }
-      .numbers { grid-template-columns: repeat(2,1fr); }
-      .work-grid { grid-template-columns: 1fr; }
-      .work-card-wide { grid-column: span 1; }
-      .hero h1 { font-size: 32px; }
-    }
-  </style>
+    .character-wrap { max-width: 320px; margin: 0 auto; }
+    section { padding: 80px 20px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .work-grid { grid-template-columns: 1fr; gap: 20px; }
+    .marquee span { font-size: 36px; }
+    footer { flex-direction: column; gap: 8px; padding: 24px 20px; }
+  }
+</style>
 </head>
 <body>
-<div id="app">
-  <canvas id="bg" aria-hidden="true"></canvas>
 
-  <div class="toast" :class="{ show: toast.show }">{{ toast.text }}</div>
+<div class="cursor" id="cursor"></div>
 
-  <!-- Reel Modal -->
-  <div class="modal" :class="{ open: reel.isOpen }" @click="closeReelIfBackdrop" role="dialog" aria-modal="true">
-    <div class="panel">
-      <div class="panelHead">
-        <span>REEL ■</span>
-        <button @click="closeReel">Close</button>
-      </div>
-      <video ref="reelVideo" controls preload="metadata">
-        <source :src="profile.reelMp4Url" type="video/mp4" />
-      </video>
-    </div>
+<nav>
+  <a href="#top" class="logo" aria-label="JUNGKANG0911首頁">JUNGKANG0911</a>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#contact" class="contact-link">Contact</a>
+  </div>
+</nav>
+
+<!-- ====================== HERO ====================== -->
+<main>
+<section class="hero" id="top" aria-labelledby="home-title">
+  <div class="hero-text">
+    <div class="hero-eyebrow">JUNGKANG0911 · Taipei · AI Automation</div>
+    <h1 id="home-title">
+      讓複雜系統<br/>
+      <em>真的</em><br/>
+      <span class="outline">跑得起來。</span>
+    </h1>
+    <p class="lead">
+      10 年企業系統整合經驗，近年聚焦 AI 落地與流程自動化。
+      我習慣從業務流程的痛點出發，而不是從技術本身出發——
+      把複雜的系統和流程，變得可落地、可維運。
+    </p>
+    <a href="#work" class="hero-cta">
+      看看做過的事
+      <span class="icon-arrow" aria-hidden="true">&rarr;</span>
+    </a>
   </div>
 
-  <!-- Lightbox -->
-  <div class="lightbox-modal" :class="{ show: lightbox.isOpen }" @click="closeLightboxIfBackdrop" role="dialog" aria-modal="true">
-    <div class="lightbox-content">
-      <button class="lightbox-close" @click="closeLightbox">&times;</button>
-      <img :src="lightbox.imageSrc" :alt="lightbox.caption" />
-      <div class="lightbox-caption">{{ lightbox.caption }}</div>
+  <!-- ============ CHARACTER ============ -->
+  <div class="character-wrap">
+    <img class="character" src="assets/images/jungkang-character.svg" alt="JUNGKANG0911個人網站人物插圖" width="500" height="500" decoding="async" />
+  </div>
+</section>
+
+<!-- ====================== MARQUEE ====================== -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>AI Agent + MCP</span>
+    <span>n8n Workflow</span>
+    <span>OCR · Document AI</span>
+    <span>Middleware</span>
+    <span>System Architecture</span>
+    <span>AI Agent + MCP</span>
+    <span>n8n Workflow</span>
+    <span>OCR · Document AI</span>
+    <span>Middleware</span>
+    <span>System Architecture</span>
+  </div>
+</div>
+
+<!-- ====================== ABOUT ====================== -->
+<section id="about">
+  <div class="section-label reveal">About</div>
+  <h2 class="section-title reveal">
+    我想參與的不是 <em>AI 功能開發</em>，<br/>
+    而是 AI 真正<em>落地</em>的那一段。
+  </h2>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        在多個專案裡，我同時承擔 <strong>PM、SA、SD、甚至 PG</strong> 的角色——
+        不是因為人手不足，而是跨層視野在複雜專案裡往往是推進關鍵。
+        這讓我養成一種習慣：不只看自己負責的那一層，
+        而是從需求、架構到實作都能接得住。
+      </p>
+      <p>
+        近年持續在 AI 落地架構上累積實作經驗。
+        主導以 <strong>n8n 為核心的 AI Agent + MCP 架構</strong>，
+        逐步取代傳統 RPA；私下也在做一鍵影片生成 workflow、
+        MCP 網頁操作自動化、自然語言驅動的股價分析工具。
+      </p>
+      <p>
+        這些不是為了跟風 AI，而是持續驗證——
+        <strong>「AI 能力如何變成可維運的系統」</strong>這件事。
+      </p>
+    </div>
+
+    <div class="skills-list reveal">
+      <div class="skill-row"><span>AI 落地架構</span><span>n8n · MCP · Agent</span></div>
+      <div class="skill-row"><span>OCR / Document AI</span><span>DL Model · Pipeline</span></div>
+      <div class="skill-row"><span>Middleware 優化</span><span>非同步 · 高併發</span></div>
+      <div class="skill-row"><span>系統分析</span><span>PM · SA · SD</span></div>
+      <div class="skill-row"><span>全端開發</span><span>.NET · Node · Angular</span></div>
+      <div class="skill-row"><span>平台治理</span><span>K8s · Kong · CI/CD</span></div>
     </div>
   </div>
+</section>
 
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="left">
-      <span class="pill"><span class="dot"></span><span>{{ profile.city }}</span></span>
-      <span class="pill">{{ weather.temp }}° {{ weather.description }}</span>
-      <span class="pill">{{ currentTime }}</span>
-    </div>
-    <div class="right">
-      <a href="#about">About</a>
-      <a href="#work">Work</a>
-      <a href="#contact">Contact</a>
-      <button @click="openReel">Reel</button>
-    </div>
-  </header>
+<!-- ====================== WORK ====================== -->
+<section id="work" class="work">
+  <div class="section-label reveal">Selected Work · 2024 — 2026</div>
+  <h2 class="section-title reveal">最近<em>主導過</em>的<br/>幾件事。</h2>
 
-  <main>
-    <div class="wrap">
+  <div class="work-grid">
 
-      <!-- Hero -->
-      <div class="hero">
-        <div class="hero-label">Jung Kang &mdash; Technical PM / AI Integration</div>
-        <h1>讓 AI<br /><em>真正落地</em></h1>
-        <p class="hero-sub">
-          不只規劃，也動手實作。<br />
-          主導企業系統 AI 化、流程自動化與高併發穩定性改善，<br />
-          能在需求、架構、實作之間靈活切換。
-        </p>
-        <div class="hero-meta">
-          <span class="tag">n8n · AI Agent · MCP</span>
-          <span class="tag">C# / .NET / Angular</span>
-          <span class="tag">OCR / Document AI</span>
-          <span class="tag">Middleware 高併發</span>
-          <span class="tag">台北</span>
-          <a class="tag pill link" href="#" @click.prevent="copyEmail">{{ profile.email }}</a>
+    <a class="work-card featured reveal" data-id="yunxiang">
+      <div class="work-thumb" style="background: linear-gradient(135deg, #1a1108 0%, #3a2614 60%, #5a3a18 100%);">
+        <img src="assets/images/work-yunxiang-travel.svg" alt="雲想旅遊一站式觀光平台作品縮圖" loading="eager" decoding="async" />
+      </div>
+      <div class="work-info">
+        <div>
+          <h3>雲想旅遊 · 一站式觀光平台</h3>
+          <p>Brand · Web Design · Multi-page · 2024</p>
+        </div>
+        <div class="work-arrow">
+          <span class="icon-arrow" aria-hidden="true">&nearr;</span>
         </div>
       </div>
+    </a>
 
-      <!-- What I Do -->
-      <section id="about">
-        <div class="sec-label">What I Do</div>
-        <div class="capabilities">
-          <div class="cap">
-            <div class="cap-num">01</div>
-            <h3>AI 落地架構</h3>
-            <p>讓系統自己看畫面、自己判斷、自己修復。把 LLM 能力接進企業流程，而不只是做一個聊天機器人。</p>
-          </div>
-          <div class="cap">
-            <div class="cap-num">02</div>
-            <h3>流程重構</h3>
-            <p>把 RPA 機器人換成真正可維運的 workflow。n8n 編排 + AI Agent 決策 + MCP 工具執行，三層分離。</p>
-          </div>
-          <div class="cap">
-            <div class="cap-num">03</div>
-            <h3>跨層推進</h3>
-            <p>同一個人能當 PM、SA、SD、PG。不是因為人手不足，而是跨層視野在複雜專案裡往往是推進關鍵。</p>
-          </div>
+    <a class="work-card reveal" data-id="ai-agent">
+      <div class="work-thumb g1">
+        <img src="assets/images/work-ai-agent-automation.svg" alt="AI Agent 企業自動化作品縮圖" loading="lazy" decoding="async" />
+      </div>
+      <div class="work-info">
+        <div>
+          <h3>AI Agent 企業自動化</h3>
+          <p>Node.js · MCP · Chrome CDP · 2025</p>
         </div>
-      </section>
-
-      <!-- Numbers -->
-      <section style="padding-top: 0; border-top: none;">
-        <div class="numbers">
-          <div class="num-item">
-            <div class="num-val">20K<span>→</span>40K</div>
-            <div class="num-label">RPM 系統承載提升<br />Middleware 優化</div>
-          </div>
-          <div class="num-item">
-            <div class="num-val">&gt;<span>98</span>%</div>
-            <div class="num-label">OCR 欄位辨識率<br />5,000 份樣本統計</div>
-          </div>
-          <div class="num-item">
-            <div class="num-val"><span>4</span> 天</div>
-            <div class="num-label">App 從 0 到<br />Google Play 上架</div>
-          </div>
-          <div class="num-item">
-            <div class="num-val"><span>8</span> 年</div>
-            <div class="num-label">Middleware 老問題<br />獨立根治</div>
-          </div>
+        <div class="work-arrow">
+          <span class="icon-arrow" aria-hidden="true">&nearr;</span>
         </div>
-      </section>
+      </div>
+    </a>
 
-      <!-- Work -->
-      <section id="work">
-        <div class="sec-label">Selected Work</div>
-        <div class="work-grid">
-
-          <div class="work-card">
-            <div class="work-tags">
-              <span class="work-tag">AI Agent</span>
-              <span class="work-tag">MCP</span>
-              <span class="work-tag">Node.js</span>
-            </div>
-            <h3>讓系統自己看畫面、自己決定下一步</h3>
-            <p>
-              企業系統 AI Agent：整合 MCP Server 與 Chrome CDP，
-              支援自然語言驅動網頁操作。Agent 偵測到非預期狀態時，
-              自動截圖送 AI 分析，決策修復路徑後繼續執行，
-              完成後產出帶有決策軌跡的執行報告。
-            </p>
-          </div>
-
-          <div class="work-card">
-            <div class="work-tags">
-              <span class="work-tag">n8n</span>
-              <span class="work-tag">RPA 替代</span>
-              <span class="work-tag">架構設計</span>
-            </div>
-            <h3>把 RPA 機器人換成真正可維運的東西</h3>
-            <p>
-              獨立規劃以 n8n 為核心的替代架構，整合 AI Agent、
-              Browser / Desktop MCP 與 Node.js Tool Service。
-              已完成首隻機器人替換驗證，
-              Phase 2 預估年省授權費 $38.2 萬（含稅）。
-            </p>
-          </div>
-
-          <div class="work-card">
-            <div class="work-tags">
-              <span class="work-tag">Middleware</span>
-              <span class="work-tag">高併發</span>
-              <span class="work-tag">Kong</span>
-            </div>
-            <h3>跑了 8 年才根治的高併發問題</h3>
-            <p>
-              10 個 Pod 仍反覆 restart，問題延宕 8 年。
-              壓測確認根因為同步程式模型與 Linux inotify I/O limit，
-              非資源不足。完成非同步改寫 + Ziddleware 分流架構，
-              承載從 20K 提升至 30–40K RPM，Pod 數 10 → 3。
-            </p>
-          </div>
-
-          <div class="work-card">
-            <div class="work-tags">
-              <span class="work-tag">OCR</span>
-              <span class="work-tag">YOLOv8</span>
-              <span class="work-tag">Document AI</span>
-            </div>
-            <h3>從 PoC 說服主管，到文件辨識系統上線</h3>
-            <p>
-              自主發現 ABBYY 授權斷供風險，規劃替代方案。
-              以 PoC 數據取得高階主管支持後，
-              完成深度學習模型訓練、影像前處理、欄位辨識到系統回寫全流程。
-              落地場景：身分證、行照、健保卡、電費單，辨識率 &gt;98%。
-            </p>
-          </div>
-
-          <div class="work-card">
-            <div class="work-tags">
-              <span class="work-tag">Android</span>
-              <span class="work-tag">Google Play</span>
-              <span class="work-tag">AI 輔助開發</span>
-            </div>
-            <h3>4 天，從想法到 Google Play</h3>
-            <p>
-              獨立設計並開發股票申購損益計算 App，
-              以 AI 輔助完成全程開發，4 天完成從產品設計、實作到上架。
-            </p>
-            <a class="work-link" href="https://play.google.com/store/apps/details?id=com.chouhaoqian.app" target="_blank" rel="noopener">
-              → 申購計算機 on Google Play
-            </a>
-          </div>
-
-          <!-- Design Portfolio -->
-          <div class="work-card work-card-wide">
-            <div class="work-tags">
-              <span class="work-tag">Web Design</span>
-              <span class="work-tag">Illustrator</span>
-              <span class="work-tag">Photoshop</span>
-            </div>
-            <h3>網頁設計作品集</h3>
-            <div class="image-slider">
-              <div class="slider-container">
-                <div class="slider-track">
-                  <div v-for="(slide, index) in slider.slides" :key="index"
-                       class="slide" :class="{ active: slider.currentIndex === index }">
-                    <img :src="slide.src" :alt="slide.alt" @click="openLightbox(slide)" />
-                  </div>
-                </div>
-              </div>
-              <div class="slider-controls">
-                <button class="slider-btn" @click="prevSlide">&#10094;</button>
-                <div class="slider-dots">
-                  <span v-for="(slide, index) in slider.slides" :key="index"
-                        class="slider-dot" :class="{ active: slider.currentIndex === index }"
-                        @click="goToSlide(index)"></span>
-                </div>
-                <button class="slider-btn" @click="nextSlide">&#10095;</button>
-              </div>
-            </div>
-            <p>企業官網、產品頁面等視覺設計案例。</p>
-          </div>
-
+    <a class="work-card reveal" data-id="rpa">
+      <div class="work-thumb g2">
+        <img src="assets/images/work-rpa-replacement.svg" alt="RPA 替代架構作品縮圖" loading="lazy" decoding="async" />
+      </div>
+      <div class="work-info">
+        <div>
+          <h3>RPA 替代架構</h3>
+          <p>n8n + AI Agent + MCP · 2025</p>
         </div>
-      </section>
-
-      <!-- About -->
-      <section>
-        <div class="sec-label">About</div>
-        <div class="about-text">
-          <p>
-            我在企業裡推 AI 落地。<br />
-            不是建模型——是讓業務流程<strong>真的用上 AI</strong>，然後穩定跑下去。
-          </p>
-          <p>
-            這件事比聽起來難。<br />
-            要能跟業務談清楚問題，要能設計架構，<br />
-            要能自己寫程式，要能讓主管看懂為什麼值得投入。<br />
-            我剛好這幾件事都做過。
-          </p>
-          <p>
-            在多個專案裡同時當 PM、SA、SD、甚至 PG。<br />
-            不是因為人手不足——<br />
-            而是跨層視野在複雜專案裡往往才是推進的關鍵。
-          </p>
-          <p>
-            核心從沒變過：<strong>讓複雜的東西變得可落地、可維運。</strong><br />
-            只是每次用的切入角度不同。
-          </p>
+        <div class="work-arrow">
+          <span class="icon-arrow" aria-hidden="true">&nearr;</span>
         </div>
-      </section>
+      </div>
+    </a>
 
-      <!-- Contact -->
-      <section id="contact">
-        <div class="sec-label">Contact</div>
-        <div class="contact-wrap">
-          <div class="contact-line">有想法？直接找我。</div>
-          <div class="contact-actions">
-            <button class="btn-primary" @click="copyEmail">Copy Email</button>
-            <a class="btn-primary" href="https://www.linkedin.com/in/家榮-康-b96b583b0/" target="_blank" rel="noopener">LinkedIn</a>
-          </div>
+    <a class="work-card reveal" data-id="middleware">
+      <div class="work-thumb g3">
+        <img src="assets/images/work-middleware-optimization.svg" alt="Middleware 高併發優化作品縮圖" loading="lazy" decoding="async" />
+      </div>
+      <div class="work-info">
+        <div>
+          <h3>Middleware 高併發優化</h3>
+          <p>非同步改寫 · Kong · 2025</p>
         </div>
-      </section>
+        <div class="work-arrow">
+          <span class="icon-arrow" aria-hidden="true">&nearr;</span>
+        </div>
+      </div>
+    </a>
 
-      <footer>
-        <span>© {{ currentYear }} Jung Kang</span>
-        <span>Vue 3 + WebGL</span>
-      </footer>
+    <a class="work-card reveal" data-id="ocr">
+      <div class="work-thumb g4">
+        <img src="assets/images/work-document-ai.svg" alt="OCR 與 Document AI 作品縮圖" loading="lazy" decoding="async" />
+      </div>
+      <div class="work-info">
+        <div>
+          <h3>OCR / Document AI</h3>
+          <p>DL 模型 · 5,000 樣本 · 2025</p>
+        </div>
+        <div class="work-arrow">
+          <span class="icon-arrow" aria-hidden="true">&nearr;</span>
+        </div>
+      </div>
+    </a>
 
-    </div>
-  </main>
+    <a class="work-card reveal" data-id="video">
+      <div class="work-thumb g5">
+        <img src="assets/images/work-video-workflow.svg" alt="一鍵影片生成 Workflow 作品縮圖" loading="lazy" decoding="async" />
+      </div>
+      <div class="work-info">
+        <div>
+          <h3>一鍵影片生成 Workflow</h3>
+          <p>個人實作 · n8n · 2025</p>
+        </div>
+        <div class="work-arrow">
+          <span class="icon-arrow" aria-hidden="true">&nearr;</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="work-card reveal" data-id="app">
+      <div class="work-thumb g6">
+        <img src="assets/images/work-stock-calculator-app.svg" alt="申購計算機 Android App 作品縮圖" loading="lazy" decoding="async" />
+      </div>
+      <div class="work-info">
+        <div>
+          <h3>申購計算機 App</h3>
+          <p>AI 全程代勞 · Android · 2025</p>
+        </div>
+        <div class="work-arrow">
+          <span class="icon-arrow" aria-hidden="true">&nearr;</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ====================== CONTACT ====================== -->
+<section id="contact" class="contact">
+  <div class="section-label reveal">Contact</div>
+  <h2 class="contact-title reveal">
+    有想法的話，<br/><em>聊聊？</em>
+  </h2>
+  <a href="mailto:jungkang0911@gmail.com" class="contact-email reveal">jungkang0911@gmail.com</a>
+  <div class="contact-socials reveal">
+    <a href="#">Instagram</a>
+    <a href="#">Dribbble</a>
+    <a href="#">Behance</a>
+    <a href="#">Github</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div>© 2026 JUNGKANG0911 · 由 AI 產生</div>
+  <div>Made in Taipei ✦</div>
+</footer>
+
+<!-- ====================== MODAL ====================== -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div class="modal-cat" id="modalCat"></div>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <p class="modal-desc" id="modalDesc"></p>
+    <ul class="modal-highlights" id="modalHighlights"></ul>
+    <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener" hidden>
+      查看實際網站
+      <span class="icon-arrow" aria-hidden="true">&nearr;</span>
+    </a>
+  </div>
 </div>
 
 <script>
-const { createApp } = Vue;
-createApp({
-  data() {
-    return {
-      profile: {
-        city: 'TAIPEI',
-        email: 'jungkang0911@gmail.com',
-        reelMp4Url: '',
-        weatherLat: 25.0330,
-        weatherLon: 121.5654
-      },
-      currentTime: '--:--:--',
-      currentYear: new Date().getFullYear(),
-      weather: { temp: '--', description: '—' },
-      toast: { show: false, text: 'Copied!' },
-      reel: { isOpen: false },
-      lightbox: { isOpen: false, imageSrc: '', caption: '' },
-      slider: {
-        currentIndex: 0,
-        slides: [
-          { src: 'images/works/axistek.png', alt: 'Axistek 企業官網設計' },
-          { src: 'images/works/silicon-sky.jpg', alt: 'Silicon Sky 產品頁面' },
-          { src: 'images/works/S__15106073.jpg', alt: '企業形象網站設計' }
-        ],
-        autoPlayInterval: null
-      }
-    };
-  },
-  mounted() {
-    this.initTime();
-    this.loadWeather();
-    this.initSlider();
-    this.initWebGL();
-    this.initKeyboardControls();
-  },
-  beforeUnmount() {
-    if (this.slider.autoPlayInterval) clearInterval(this.slider.autoPlayInterval);
-  },
-  methods: {
-    initTime() {
-      const update = () => {
-        const d = new Date(), p = n => String(n).padStart(2,'0');
-        this.currentTime = `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
-      };
-      update(); setInterval(update, 1000);
-    },
-    async loadWeather() {
-      try {
-        const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${this.profile.weatherLat}&longitude=${this.profile.weatherLon}&current_weather=true`, { cache: 'no-store' });
-        const d = await r.json();
-        if (!d.current_weather) return;
-        this.weather.temp = Math.round(d.current_weather.temperature);
-        const m = {0:'Clear',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Fog',51:'Drizzle',53:'Drizzle',55:'Drizzle',61:'Rain',63:'Rain',65:'Rain',71:'Snow',73:'Snow',75:'Snow',80:'Rain',81:'Rain',82:'Rain',95:'Thunder',96:'Thunder',99:'Thunder'};
-        this.weather.description = m[d.current_weather.weathercode] ?? 'Weather';
-      } catch(e) {}
-      setTimeout(() => this.loadWeather(), 3600000);
-    },
-    async copyEmail() {
-      try { await navigator.clipboard.writeText(this.profile.email); }
-      catch(e) { const t = document.createElement('textarea'); t.value = this.profile.email; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
-      this.showToast('Copied!');
-    },
-    showToast(text) { this.toast.text = text; this.toast.show = true; setTimeout(() => this.toast.show = false, 1200); },
-    openReel() { this.reel.isOpen = true; if (this.$refs.reelVideo && this.profile.reelMp4Url) this.$refs.reelVideo.load(); },
-    closeReel() { this.reel.isOpen = false; try { this.$refs.reelVideo?.pause(); } catch(e) {} },
-    closeReelIfBackdrop(e) { if (e.target.classList.contains('modal')) this.closeReel(); },
-    initSlider() { this.slider.autoPlayInterval = setInterval(() => this.nextSlide(), 4000); },
-    nextSlide() { this.slider.currentIndex = (this.slider.currentIndex + 1) % this.slider.slides.length; },
-    prevSlide() { this.slider.currentIndex = (this.slider.currentIndex - 1 + this.slider.slides.length) % this.slider.slides.length; },
-    goToSlide(i) { this.slider.currentIndex = i; },
-    openLightbox(slide) { this.lightbox.imageSrc = slide.src; this.lightbox.caption = slide.alt; this.lightbox.isOpen = true; document.body.style.overflow = 'hidden'; },
-    closeLightbox() { this.lightbox.isOpen = false; document.body.style.overflow = ''; },
-    closeLightboxIfBackdrop(e) { if (e.target.classList.contains('lightbox-modal')) this.closeLightbox(); },
-    initKeyboardControls() {
-      document.addEventListener('keydown', e => {
-        if (this.lightbox.isOpen && e.key === 'Escape') { this.closeLightbox(); return; }
-        if (e.key === 'ArrowLeft') this.prevSlide();
-        else if (e.key === 'ArrowRight') this.nextSlide();
-      });
-    },
-    initWebGL() {
-      const canvas = document.getElementById('bg');
-      const gl = canvas.getContext('webgl2', { antialias: true, alpha: false });
-      if (!gl || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        canvas.style.display = 'none';
-        document.body.style.background = 'radial-gradient(1200px 800px at 30% 10%, rgba(90,120,255,.14), transparent 60%),radial-gradient(900px 700px at 70% 40%, rgba(255,255,255,.06), transparent 55%),linear-gradient(#07080b, #07080b)';
-        return;
-      }
-      const vert = `#version 300 es\nin vec2 a_pos;\nout vec2 v_uv;\nvoid main(){\nv_uv = a_pos * 0.5 + 0.5;\ngl_Position = vec4(a_pos, 0.0, 1.0);\n}`;
-      const frag = `#version 300 es\nprecision highp float;\nout vec4 outColor;\nin vec2 v_uv;\nuniform vec2 u_res;\nuniform float u_time;\nuniform vec2 u_mouse;\nuniform float u_scroll;\nfloat hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}\nfloat noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);float a=hash(i);float b=hash(i+vec2(1,0));float c=hash(i+vec2(0,1));float d=hash(i+vec2(1,1));vec2 u=f*f*(3.-2.*f);return mix(a,b,u.x)+(c-a)*u.y*(1.-u.x)+(d-b)*u.x*u.y;}\nfloat fbm(vec2 p){float v=0.;float a=.55;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.02;a*=.5;}return v;}\nvoid main(){vec2 uv=v_uv;vec2 p=(uv-.5);p.x*=u_res.x/u_res.y;vec2 m=u_mouse-.5;m.x*=u_res.x/u_res.y;float t=u_time*.22;float n1=fbm(p*2.6+vec2(t,-t*.7)+m*.9);float n2=fbm(p*4.2+vec2(-t*.8,t)-m*.6);float flow=n1*.65+n2*.35;float lines=abs(sin((p.y+flow*.55+u_scroll*.9)*10.+p.x*2.));lines=smoothstep(.10,.0,lines);float d=length(p-m*.7);float glow=smoothstep(.55,.0,d)*.55;float vign=smoothstep(1.2,.2,length(p));float grain=noise(uv*u_res*.35+u_time)*.05;vec3 base=vec3(.03,.035,.045);vec3 ink=vec3(.92);vec3 tint=vec3(.22,.32,.95);vec3 col=base;col+=(ink*(lines*.65+glow*.35))*vign;col+=tint*(flow*.10+glow*.12);col+=grain;col=clamp(col,0.,1.);outColor=vec4(col,1.);}`;
-      const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
-      const vs = compile(gl.VERTEX_SHADER, vert);
-      const fs = compile(gl.FRAGMENT_SHADER, frag);
-      const prog = gl.createProgram();
-      gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog); gl.useProgram(prog);
-      const buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
-      const aPos = gl.getAttribLocation(prog, 'a_pos');
-      gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-      const uRes = gl.getUniformLocation(prog,'u_res'), uTime = gl.getUniformLocation(prog,'u_time'), uMouse = gl.getUniformLocation(prog,'u_mouse'), uScroll = gl.getUniformLocation(prog,'u_scroll');
-      let mx=.5, my=.5;
-      window.addEventListener('pointermove', e => { mx=e.clientX/window.innerWidth; my=1-e.clientY/window.innerHeight; }, {passive:true});
-      const resize = () => { const dpr=Math.min(window.devicePixelRatio||1,2); canvas.width=Math.floor(window.innerWidth*dpr); canvas.height=Math.floor(window.innerHeight*dpr); canvas.style.width='100%'; canvas.style.height='100%'; gl.viewport(0,0,canvas.width,canvas.height); gl.uniform2f(uRes,canvas.width,canvas.height); };
-      window.addEventListener('resize', resize); resize();
-      const getScroll = () => window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      const t0 = performance.now();
-      const frame = now => { const t=(now-t0)/1000; gl.uniform1f(uTime,t); gl.uniform2f(uMouse,mx,my); gl.uniform1f(uScroll,getScroll()); gl.drawArrays(gl.TRIANGLES,0,6); requestAnimationFrame(frame); };
-      requestAnimationFrame(frame);
-    }
+  // ============= CUSTOM CURSOR =============
+  const cursor = document.getElementById('cursor');
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let cx = mx, cy = my;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+  });
+
+  function animateCursor() {
+    cx += (mx - cx) * 0.2;
+    cy += (my - cy) * 0.2;
+    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateCursor);
   }
-}).mount('#app');
+  animateCursor();
+
+  document.querySelectorAll('a, button, .work-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+
+  // ============= CHARACTER ANIMATION =============
+  const character = document.querySelector('.character');
+  if (character) character.style.cursor = 'none';
+
+  // ============= REVEAL ON SCROLL =============
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
 </script>
 </body>
 </html>

@@ -1,0 +1,10 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <title>一鍵影片生成 Workflow 作品縮圖</title>
+  <desc>JUNGKANG0911個人網站作品集縮圖：一鍵影片生成 Workflow 作品縮圖。</desc>
+          <rect x="80" y="80" width="240" height="140" rx="8" fill="#1a1a1a"/>
+          <polygon points="180,130 180,170 220,150" fill="#fff"/>
+          <rect x="80" y="230" width="240" height="4" rx="2" fill="#fff"/>
+          <rect x="80" y="230" width="160" height="4" rx="2" fill="#ff5b2e"/>
+          <circle cx="240" cy="232" r="6" fill="#ff5b2e"/>
+          <text x="200" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1a1a1a" letter-spacing="3">STT · TTS · REMOTION</text>
+        </svg>

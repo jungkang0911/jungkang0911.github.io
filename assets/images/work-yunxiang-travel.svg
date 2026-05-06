@@ -1,0 +1,83 @@
+<svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <title>雲想旅遊一站式觀光平台作品縮圖</title>
+  <desc>JUNGKANG0911個人網站作品集縮圖：雲想旅遊一站式觀光平台作品縮圖。</desc>
+          <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#f4d384"/>
+              <stop offset="50%" stop-color="#d4a04d"/>
+              <stop offset="100%" stop-color="#9c6f2c"/>
+            </linearGradient>
+            <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#5a3a18"/>
+              <stop offset="60%" stop-color="#c47a3a"/>
+              <stop offset="100%" stop-color="#1a1108"/>
+            </linearGradient>
+            <linearGradient id="darkVignette" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1a1108" stop-opacity="0.85"/>
+              <stop offset="50%" stop-color="#1a1108" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#1a1108" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Hero "photo" — stylized sunset cityscape -->
+          <rect x="0" y="0" width="800" height="220" fill="url(#skyGrad)"/>
+          <!-- Sun glow -->
+          <circle cx="500" cy="130" r="60" fill="#f4d384" opacity="0.5"/>
+          <circle cx="500" cy="130" r="30" fill="#fce5a8" opacity="0.7"/>
+          <!-- Temple silhouettes -->
+          <path d="M0 220 L0 180 L40 175 L60 160 L75 145 L82 130 L89 145 L104 160 L124 175 L160 178 L190 165 L210 150 L218 135 L226 120 L234 135 L242 150 L262 165 L292 178 L320 180 L340 170 L360 160 L375 145 L390 160 L405 170 L425 180 L460 175 L490 165 L510 150 L520 135 L530 150 L540 165 L570 175 L605 180 L640 175 L675 165 L700 150 L720 135 L740 150 L760 165 L790 175 L800 175 L800 220 Z" fill="#1a1108"/>
+          <!-- Reflection -->
+          <rect x="0" y="180" width="800" height="40" fill="#c47a3a" opacity="0.15"/>
+          <!-- Vignette overlay for text -->
+          <rect x="0" y="0" width="800" height="220" fill="url(#darkVignette)"/>
+
+          <!-- Top nav bar -->
+          <text x="40" y="35" font-family="Fraunces, serif" font-size="18" font-weight="500" fill="url(#goldGrad)">雲想</text>
+          <line x1="40" y1="44" x2="78" y2="44" stroke="#d4a04d" stroke-width="0.6" opacity="0.5"/>
+          <g font-family="Inter, sans-serif" font-size="10" fill="#d4a04d" opacity="0.7">
+            <text x="170" y="35">首頁</text>
+            <text x="210" y="35">套裝</text>
+            <text x="250" y="35">服務</text>
+            <text x="290" y="35">關於</text>
+          </g>
+          <rect x="720" y="22" width="50" height="22" rx="11" fill="none" stroke="#d4a04d" stroke-width="0.6" opacity="0.5"/>
+          <text x="745" y="37" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#d4a04d" opacity="0.8">中文</text>
+
+          <!-- Hero headline -->
+          <text x="40" y="115" font-family="Fraunces, serif" font-size="42" font-weight="300" fill="url(#goldGrad)">奢華之城</text>
+          <text x="40" y="158" font-family="Fraunces, serif" font-size="42" font-style="italic" font-weight="300" fill="url(#goldGrad)" opacity="0.85">的黃金時刻</text>
+          <line x1="40" y1="175" x2="100" y2="175" stroke="#d4a04d" stroke-width="0.8"/>
+          <text x="40" y="195" font-family="Inter, sans-serif" font-size="9" fill="#f4d384" opacity="0.6" letter-spacing="2">EXPLORE THE GOLDEN HOUR</text>
+
+          <!-- Section label -->
+          <text x="40" y="252" font-family="Inter, sans-serif" font-size="9" fill="#d4a04d" opacity="0.7" letter-spacing="3">EXPLORE</text>
+          <text x="40" y="276" font-family="Fraunces, serif" font-size="20" fill="#f4d384">精選 <tspan font-style="italic">目的地</tspan></text>
+
+          <!-- Destination card grid -->
+          <g>
+            <!-- Card 1 -->
+            <rect x="320" y="240" width="105" height="88" rx="3" fill="#2a1c10" stroke="#d4a04d" stroke-width="0.4" opacity="0.9"/>
+            <rect x="320" y="240" width="105" height="60" fill="#c47a3a" opacity="0.3"/>
+            <text x="328" y="318" font-family="Fraunces, serif" font-size="10" fill="#f4d384">Bangkok</text>
+
+            <!-- Card 2 -->
+            <rect x="435" y="240" width="105" height="88" rx="3" fill="#2a1c10" stroke="#d4a04d" stroke-width="0.4" opacity="0.9"/>
+            <rect x="435" y="240" width="105" height="60" fill="#5a3a18" opacity="0.5"/>
+            <text x="443" y="318" font-family="Fraunces, serif" font-size="10" fill="#f4d384">Da Nang</text>
+
+            <!-- Card 3 -->
+            <rect x="550" y="240" width="105" height="88" rx="3" fill="#2a1c10" stroke="#d4a04d" stroke-width="0.4" opacity="0.9"/>
+            <rect x="550" y="240" width="105" height="60" fill="#3a2614" opacity="0.7"/>
+            <text x="558" y="318" font-family="Fraunces, serif" font-size="10" fill="#f4d384">Kyoto</text>
+
+            <!-- Card 4 -->
+            <rect x="665" y="240" width="105" height="88" rx="3" fill="#2a1c10" stroke="#d4a04d" stroke-width="0.4" opacity="0.9"/>
+            <rect x="665" y="240" width="105" height="60" fill="#9c6f2c" opacity="0.4"/>
+            <text x="673" y="318" font-family="Fraunces, serif" font-size="10" fill="#f4d384">Tokyo</text>
+          </g>
+
+          <!-- Decorative star -->
+          <g transform="translate(770 30)">
+            <path d="M0 -5 L1.5 -1.5 L5 0 L1.5 1.5 L0 5 L-1.5 1.5 L-5 0 L-1.5 -1.5 Z" fill="#d4a04d"/>
+          </g>
+        </svg>
