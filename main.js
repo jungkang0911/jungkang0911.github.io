@@ -1,14 +1,4 @@
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const workTrack = document.querySelector('#work-track');
-function moveWork(direction){
-  if(!workTrack) return;
-  const cards=[...workTrack.querySelectorAll('.project')];
-  const current=cards.reduce((best,card,index)=>Math.abs(card.offsetLeft-cards[0].offsetLeft-workTrack.scrollLeft)<Math.abs(cards[best].offsetLeft-cards[0].offsetLeft-workTrack.scrollLeft)?index:best,0);
-  const next=(current+direction+cards.length)%cards.length;
-  workTrack.scrollTo({left:cards[next].offsetLeft-cards[0].offsetLeft,behavior:reduced.matches?'instant':'smooth'});
-}
-document.querySelector('[data-work-prev]')?.addEventListener('click',()=>moveWork(-1));
-document.querySelector('[data-work-next]')?.addEventListener('click',()=>moveWork(1));
 let paused = reduced.matches;
 const motionButton = document.querySelector('#motion-toggle');
 function syncMotion(){document.body.classList.toggle('paused',paused);motionButton.setAttribute('aria-pressed',String(paused));motionButton.setAttribute('aria-label',paused?'播放動畫':'暫停動畫');motionButton.innerHTML=paused?'Play motion <span>▷</span>':'Pause motion <span>Ⅱ</span>';}
