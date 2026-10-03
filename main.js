@@ -7,10 +7,10 @@ reduced.addEventListener('change',e=>{paused=e.matches;syncMotion();});syncMotio
 function clock(){document.querySelector('#clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date());}clock();setInterval(clock,1000);
 const projectData=[
   {
-    "title": "OCR · 文件資料整理",
-    "description": "文件資料靠人逐欄輸入，不只耗時，後續還需要反覆核對。這個案例把證件圖片中的資訊，整理成後續流程能使用的資料。",
-    "idea": "先找出需要的欄位，再辨識文字、核對格式；模糊或不確定的內容重新處理，或交由人工確認。",
-    "experience": "減少重複輸入，讓人工把注意力放在異常資料。每個步驟保留檢查的機會，方便追查問題與修正內容。",
+    "title": "OCR · 證件與文件辨識",
+    "description": "證件與文件資料需要反覆輸入與核對，大量處理時，也需要考量辨識成本與資料的部署環境。",
+    "idea": "主要流程採地端 OCR，先定位與整理欄位，再辨識文字、檢查格式與規則，不依賴多模態模型逐筆判讀。不確定的結果重新處理或交由人工確認；目前實作紀錄以證件辨識為主。",
+    "experience": "減少人工輸入與反覆核對，降低對付費模型呼叫的依賴，讓日常大量辨識的成本更可控。資料可留在地端處理，方便整合企業既有作業流程。",
     "url": "https://hackmd.io/@jungkang/H13pVO4Jee"
   },
   {
