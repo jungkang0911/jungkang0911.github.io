@@ -54,3 +54,5 @@ header .contact-link:is(:hover,:focus-visible){background:var(--accent);border-c
 header .contact-link:is(:hover,:focus-visible) .dot{transform:scale(1.15);box-shadow:0 0 0 4px #24301914}
 header nav a:active,header .contact-link:active{transform:translateY(0);background:var(--accent)}
 @media(max-width:640px){header{gap:10px}header nav{gap:0}header nav a{padding:10px;min-height:44px}header nav a::after{left:10px;right:10px}header nav a:first-child{display:none}header .contact-link{padding:10px 12px;gap:9px}}
+
+.about-note{display:flex;flex-wrap:wrap;gap:20px;align-items:center}.about-grid .brand-name{font-size:14px;letter-spacing:1px;color:#456219;margin-bottom:20px}.studio-link{font-size:13px;letter-spacing:0}
