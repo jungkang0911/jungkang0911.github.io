@@ -9,14 +9,29 @@ humanImage.onload=()=>{
  const p={x:x+(random()-.5)*3,y:y+(random()-.5)*3,phase:random()*Math.PI*2,spread:hand?.8:2.8,alpha};const id=points.push(p)-1,k=`${Math.floor(x/14)},${Math.floor(y/14)}`;if(!buckets.has(k))buckets.set(k,[]);buckets.get(k).push(id);
  }}
  points.forEach((p,i)=>{const bx=Math.floor(p.x/14),by=Math.floor(p.y/14),near=[];for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)for(const j of buckets.get(`${bx+dx},${by+dy}`)||[]){if(j<=i)continue;const q=points[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d<18)near.push([j,d]);}near.sort((a,b)=>a[1]-b[1]);near.slice(0,p.x<270?5:4).forEach(([j])=>edges.push([i,j]));});
+ // Smooth anatomical weights keep the hand stable while the chest and shoulders breathe.
+ points.forEach(p=>{
+  p.chest=Math.exp(-(((p.x-365)/115)**2+((p.y-245)/100)**2));
+  p.shoulder=Math.exp(-(((p.x-335)/145)**2+((p.y-200)/80)**2));
+  p.head=Math.exp(-(((p.x-358)/65)**2+((p.y-115)/90)**2));
+ });
  drawHuman();
 };
 function drawHuman(){if(!pw||!ph||!humanImage.complete||!humanImage.naturalWidth)return;
  const t=time,c=pen;c.clearRect(0,0,pw,ph);const mobile=pw<650,scale=mobile?pw/560:Math.min(pw/650,ph/365),left=(pw-540*scale)/2,top=mobile?18:10;
- const dissolve=(Math.sin(t*.38)+1)/2;
- const rendered=points.map(p=>{const loose=p.x>290?Math.pow(dissolve,3)*14:0;return [left+(p.x+Math.sin(t*.6+p.phase)*p.spread+Math.sin(p.phase*3)*loose+smoothX*8*(1-p.y/500))*scale,top+(p.y+Math.cos(t*.5+p.phase)*p.spread+Math.cos(p.phase*2)*loose+smoothY*5)*scale];});
+ // A 4.8-second breath: shorter inhale, longer exhale, eased at both ends.
+ const cycle=(t%4.8)/4.8;
+ const breath=cycle<.4?(1-Math.cos(Math.PI*cycle/.4))/2:(1+Math.cos(Math.PI*(cycle-.4)/.6))/2;
+ const lift=breath-.35,dissolve=(Math.sin(t*.38)+1)/2;
+ const rendered=points.map(p=>{
+  const loose=p.x>290?Math.pow(dissolve,3)*5:0;
+  const expand=(p.x-365)*.038*p.chest*lift;
+  const rise=-(7*p.shoulder+3*p.head)*lift;
+  const sway=Math.sin(t*.34)*1.2*(p.chest+p.head*.5);
+  return [left+(p.x+expand+sway+Math.sin(t*.6+p.phase)*p.spread*.55+Math.sin(p.phase*3)*loose+smoothX*8*(1-p.y/500))*scale,top+(p.y+rise+Math.cos(t*.5+p.phase)*p.spread*.55+Math.cos(p.phase*2)*loose+smoothY*5)*scale];
+ });
  c.strokeStyle='#22231f';c.lineWidth=mobile?.45:.55;
- c.globalAlpha=.3;c.beginPath();for(const [a,b] of edges){const p=rendered[a],q=rendered[b];c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);}c.stroke();
+ c.globalAlpha=.29+breath*.035;c.beginPath();for(const [a,b] of edges){const p=rendered[a],q=rendered[b];c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);}c.stroke();
  // Longer loose strands dissolve around the head and shoulder, not the hand.
  c.globalAlpha=.28;c.lineWidth=.6;c.beginPath();for(let i=0;i<points.length;i+=17){const p=points[i];if(p.x<290)continue;const r=rendered[i],length=(7+18*dissolve)*scale,dx=Math.sin(p.phase+t*.12)*length,dy=Math.cos(p.phase*2+t*.1)*length;c.moveTo(r[0],r[1]);c.lineTo(r[0]+dx,r[1]+dy);c.lineTo(r[0]+dx+Math.sin(p.phase)*length*.5,r[1]+dy-length*.3);}c.stroke();c.globalAlpha=1;
 }
