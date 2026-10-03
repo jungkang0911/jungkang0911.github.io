@@ -8,27 +8,72 @@ function clock(){document.querySelector('#clock').textContent=new Intl.DateTimeF
 const projectData=[
   {
     "title": "OCR · 證件與文件辨識",
-    "description": "證件與文件資料需要反覆輸入與核對，大量處理時，也需要考量辨識成本與資料的部署環境。",
-    "idea": "主要流程採地端 OCR，先定位與整理欄位，再辨識文字、檢查格式與規則，不依賴多模態模型逐筆判讀。不確定的結果重新處理或交由人工確認；目前實作紀錄以證件辨識為主。",
-    "experience": "減少人工輸入與反覆核對，降低對付費模型呼叫的依賴，讓日常大量辨識的成本更可控。資料可留在地端處理，方便整合企業既有作業流程。",
+    "description": "資料留在地端，把大量辨識的成本掌握在自己手上。",
+    "advantages": [
+      [
+        "地端處理",
+        "證件與文件可在自己的環境辨識，降低資料外傳需求。"
+      ],
+      [
+        "成本可控",
+        "主要流程採 OCR 與規則核對，減少逐筆呼叫多模態模型。"
+      ],
+      [
+        "結果可核對",
+        "欄位逐一檢查，不確定的內容再處理或交由人工確認。"
+      ]
+    ],
+    "proof": "實作依據：公開紀錄使用約 5,000 份證件正反面資料驗證，整體 OCR 辨識率約 98%。這是該批證件的驗證結果，不延伸為所有文件的準確率承諾。",
+    "idea": "先找出欄位、整理影像，再進行 OCR 與格式驗證。把問題拆成可檢查的步驟，辨識錯誤時能定位原因，避免整份資料反覆重做。",
+    "experience": "需要批次整理證件、文件輸入量持續增加，或希望把主要資料處理留在內部環境的作業。",
     "url": "https://hackmd.io/@jungkang/H13pVO4Jee"
   },
   {
     "title": "LINE · 商品上架協作",
-    "description": "商品名稱、價格與規格散落在訊息、圖片和影片裡，上架前往往要花時間來回查找與比對。",
-    "idea": "先整理已確認的資訊，再補足前後對話中的線索、比對商品，將結果接回既有商品後台。無法確認的內容保留人工判斷。",
-    "experience": "減少重讀訊息、整理素材與搬移資料的工作。上架人員可以從已整理的資訊接手，專注確認商品內容。",
+    "description": "把聊天裡的商品線索，接成既有後台能接手的資料。",
+    "advantages": [
+      [
+        "不用更換後台",
+        "接回原本的商品管理與上架流程，保留既有操作習慣。"
+      ],
+      [
+        "避免反覆讀取",
+        "前面已整理的內容持續沿用，只在資訊不足時補查對話。"
+      ],
+      [
+        "人力聚焦確認",
+        "把找素材、比對與填寫串起來，疑義商品仍保留人工判斷。"
+      ]
+    ],
+    "proof": "已串接的作業：LINE 訊息、圖片與影片整理 → 商品歸屬判斷 → 既有後台填寫與上架流程。完整處理方式見實作紀錄。",
+    "idea": "分階段整理商品名稱、規格與價格，保留已確認的資訊。需要時再查前後對話、候選商品與既有資料，確認歸屬後填入後台。",
+    "experience": "商品素材經常從 LINE 傳入，名稱、規格與價格分散在多則訊息，需要人員反覆查找與搬移資料的上架作業。",
     "url": "https://hackmd.io/@jungkang/B15S3AXqMx"
   },
   {
     "title": "流程自動化與 RPA",
-    "description": "同一份資料在不同系統間反覆複製、核對與輸入，流程容易依賴個人操作，也不容易知道哪一步卡住。",
-    "idea": "把資料整理、內容核對與後台更新串起來。能直接串接的系統先串接，必須透過畫面操作的環節則搭配 RPA，並加入重試、告警與人工接手的安排。",
-    "experience": "減少跨系統重工，讓作業狀態與異常更容易追蹤。共通步驟可以重複使用，日後新增任務時，不必每次重新搭建整套流程。",
+    "description": "讓跨系統作業接得起來，也讓失敗的步驟找得到。",
+    "advantages": [
+      [
+        "依系統選擇做法",
+        "可串接的部分直接傳遞資料，必要的畫面操作搭配 RPA。"
+      ],
+      [
+        "異常有處理路徑",
+        "納入重試、告警與人工接手，讓中斷的工作有跡可循。"
+      ],
+      [
+        "共通步驟能沿用",
+        "整理、辨識、驗證拆成共用流程，新增任務時減少重搭。"
+      ]
+    ],
+    "proof": "設計取捨：以流程編排與系統串接承接大部分作業，RPA 保留在需要操作畫面的環節，降低對逐步點擊的依賴。",
+    "idea": "先梳理資料如何在不同系統間流動，再區分可直接串接與需要畫面操作的步驟。將共用能力與狀態處理集中管理，避免相同邏輯散落在不同流程。",
+    "experience": "跨後台複製資料、反覆核對與更新，或已有自動化卻難以追蹤失敗原因、維護成本逐漸增加的作業。",
     "url": "https://hackmd.io/@jungkang/SkOdPDF5Ge"
   }
 ];
-document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>{const i=Number(b.dataset.project),p=projectData[i];document.querySelector('#project-title').textContent=p.title;document.querySelector('#project-number').textContent=String(i+1).padStart(2,'0');document.querySelector('#project-description').textContent=p.description;document.querySelector('#project-idea').textContent=p.idea;document.querySelector('#project-experience').textContent=p.experience;document.querySelector('#project-source').href=p.url;document.querySelector('#project-dialog').showModal();}));
+document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>{const i=Number(b.dataset.project),p=projectData[i];document.querySelector('#project-title').textContent=p.title;document.querySelector('#project-number').textContent=String(i+1).padStart(2,'0');document.querySelector('#project-description').textContent=p.description;document.querySelector('#project-idea').textContent=p.idea;document.querySelector('#project-experience').textContent=p.experience;const advantageList=document.querySelector('#project-advantages');advantageList.replaceChildren(...p.advantages.map(([title,body])=>{const item=document.createElement('div'),heading=document.createElement('h3'),text=document.createElement('p');heading.textContent=title;text.textContent=body;item.append(heading,text);return item;}));document.querySelector('#project-proof').textContent=p.proof;document.querySelector('#project-source').href=p.url;document.querySelector('#project-dialog').showModal();}));
 document.querySelectorAll('[data-contact]').forEach(b=>b.addEventListener('click',()=>document.querySelector('#contact-dialog').showModal()));
 document.querySelectorAll('dialog').forEach(d=>{d.querySelector('[data-close]').addEventListener('click',()=>d.close());d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
 const pointer={x:0,y:0};document.querySelector('.hero').addEventListener('pointermove',e=>{const r=e.currentTarget.getBoundingClientRect();pointer.x=(e.clientX-r.left)/r.width-.5;pointer.y=(e.clientY-r.top)/r.height-.5;});document.querySelector('.hero').addEventListener('pointerleave',()=>{pointer.x=0;pointer.y=0;});
