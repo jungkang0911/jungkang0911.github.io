@@ -7,24 +7,24 @@ reduced.addEventListener('change',e=>{paused=e.matches;syncMotion();});syncMotio
 function clock(){document.querySelector('#clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date());}clock();setInterval(clock,1000);
 const projectData=[
   {
-    "title": "OCR · 文字辨識",
-    "description": "把證件圖片中的文字，整理成可以使用的資料，減少人工逐欄輸入。",
-    "idea": "先找出需要的欄位，再讀取並核對文字，減少背景與版面造成的干擾。",
-    "experience": "每個步驟都能檢查結果。遇到模糊或不確定的內容時，重新處理或交由人工確認。",
+    "title": "OCR · 文件資料整理",
+    "description": "文件資料靠人逐欄輸入，不只耗時，後續還需要反覆核對。這個案例把證件圖片中的資訊，整理成後續流程能使用的資料。",
+    "idea": "先找出需要的欄位，再辨識文字、核對格式；模糊或不確定的內容重新處理，或交由人工確認。",
+    "experience": "減少重複輸入，讓人工把注意力放在異常資料。每個步驟保留檢查的機會，方便追查問題與修正內容。",
     "url": "https://hackmd.io/@jungkang/H13pVO4Jee"
   },
   {
-    "title": "LINE · 商品整理",
-    "description": "把散落在 LINE 對話、圖片與影片中的商品資訊，整理進原本使用的商品後台。",
-    "idea": "先留下已確認的資訊，再從前後對話補足商品名稱、規格與價格，避免相同內容被反覆閱讀。",
-    "experience": "AI 協助比對商品與整理資訊，再接回既有上架流程。無法確認的內容則保留給人工判斷。",
+    "title": "LINE · 商品上架協作",
+    "description": "商品名稱、價格與規格散落在訊息、圖片和影片裡，上架前往往要花時間來回查找與比對。",
+    "idea": "先整理已確認的資訊，再補足前後對話中的線索、比對商品，將結果接回既有商品後台。無法確認的內容保留人工判斷。",
+    "experience": "減少重讀訊息、整理素材與搬移資料的工作。上架人員可以從已整理的資訊接手，專注確認商品內容。",
     "url": "https://hackmd.io/@jungkang/B15S3AXqMx"
   },
   {
-    "title": "流程自動化",
-    "description": "把反覆出現的工作整理成可重複使用的流程，減少每次都從頭處理。",
-    "idea": "將讀取資料、整理內容與核對結果等共通步驟拆出來，讓不同任務都能使用。",
-    "experience": "把資料來源、AI 助手與原本的系統接起來，讓工作狀態清楚，也方便日後調整與擴充。",
+    "title": "流程自動化與 RPA",
+    "description": "同一份資料在不同系統間反覆複製、核對與輸入，流程容易依賴個人操作，也不容易知道哪一步卡住。",
+    "idea": "把資料整理、內容核對與後台更新串起來。能直接串接的系統先串接，必須透過畫面操作的環節則搭配 RPA，並加入重試、告警與人工接手的安排。",
+    "experience": "減少跨系統重工，讓作業狀態與異常更容易追蹤。共通步驟可以重複使用，日後新增任務時，不必每次重新搭建整套流程。",
     "url": "https://hackmd.io/@jungkang/SkOdPDF5Ge"
   }
 ];
