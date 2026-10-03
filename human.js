@@ -9,11 +9,13 @@ humanImage.onload=()=>{
  const p={x:x+(random()-.5)*3,y:y+(random()-.5)*3,phase:random()*Math.PI*2,spread:hand?.8:2.8,alpha};const id=points.push(p)-1,k=`${Math.floor(x/14)},${Math.floor(y/14)}`;if(!buckets.has(k))buckets.set(k,[]);buckets.get(k).push(id);
  }}
  points.forEach((p,i)=>{const bx=Math.floor(p.x/14),by=Math.floor(p.y/14),near=[];for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)for(const j of buckets.get(`${bx+dx},${by+dy}`)||[]){if(j<=i)continue;const q=points[j],d=Math.hypot(p.x-q.x,p.y-q.y);if(d<18)near.push([j,d]);}near.sort((a,b)=>a[1]-b[1]);near.slice(0,p.x<270?5:4).forEach(([j])=>edges.push([i,j]));});
- // Smooth anatomical weights keep the hand stable while the chest and shoulders breathe.
+ // Blend breathing through the torso, extended forearm and hand.
  points.forEach(p=>{
   p.chest=Math.exp(-(((p.x-365)/115)**2+((p.y-245)/100)**2));
   p.shoulder=Math.exp(-(((p.x-335)/145)**2+((p.y-200)/80)**2));
   p.head=Math.exp(-(((p.x-358)/65)**2+((p.y-115)/90)**2));
+  p.arm=1/(1+Math.exp((p.x-275)/28));
+  p.hand=1/(1+Math.exp((p.x-218)/18));
  });
  drawHuman();
 };
@@ -28,7 +30,12 @@ function drawHuman(){if(!pw||!ph||!humanImage.complete||!humanImage.naturalWidth
   const expand=(p.x-365)*.038*p.chest*lift;
   const rise=-(7*p.shoulder+3*p.head)*lift;
   const sway=Math.sin(t*.34)*1.2*(p.chest+p.head*.5);
-  return [left+(p.x+expand+sway+Math.sin(t*.6+p.phase)*p.spread*.55+Math.sin(p.phase*3)*loose+smoothX*8*(1-p.y/500))*scale,top+(p.y+rise+Math.cos(t*.5+p.phase)*p.spread*.55+Math.cos(p.phase*2)*loose+smoothY*5)*scale];
+  // A small wrist rotation and shared lift connect the reaching hand to the breath.
+  const angle=lift*.026*p.hand,cos=Math.cos(angle),sin=Math.sin(angle);
+  const wristX=p.x-212,wristY=p.y-194;
+  const handX=(wristX*(cos-1)-wristY*sin)+lift*2.5*p.arm;
+  const handY=(wristX*sin+wristY*(cos-1))-lift*6*p.arm;
+  return [left+(p.x+expand+sway+handX+Math.sin(t*.6+p.phase)*p.spread*.55+Math.sin(p.phase*3)*loose+smoothX*8*(1-p.y/500))*scale,top+(p.y+rise+handY+Math.cos(t*.5+p.phase)*p.spread*.55+Math.cos(p.phase*2)*loose+smoothY*5)*scale];
  });
  c.strokeStyle='#22231f';c.lineWidth=mobile?.45:.55;
  c.globalAlpha=.29+breath*.035;c.beginPath();for(const [a,b] of edges){const p=rendered[a],q=rendered[b];c.moveTo(p[0],p[1]);c.lineTo(q[0],q[1]);}c.stroke();
