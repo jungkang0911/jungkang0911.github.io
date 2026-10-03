@@ -79,6 +79,72 @@ const projectData=[
     "idea": "先盤點整段作業如何開始、如何判斷、結果送到哪裡，以及失敗後該怎麼處理。再把共通步驟拆出，集中管理狀態與例外，讓流程隨需求擴充。",
     "experience": "流程越做越多、相同邏輯反覆重建，或資料在多個系統與人員之間傳遞，難以追蹤進度與失敗原因的工作。",
     "url": "https://hackmd.io/@jungkang/SkOdPDF5Ge"
+  },
+  {
+    "title": "AI · 既有文件整合",
+    "description": "讓 AI 讀取既有 Wiki，整理操作步驟與跨頁差異，保留回答來源。",
+    "advantages": [
+      [
+        "沿用原文件",
+        "文件繼續在既有 Wiki 維護。"
+      ],
+      [
+        "回答可核對",
+        "摘要與差異附上來源頁面。"
+      ],
+      [
+        "釐清權限",
+        "區分工具能力與後端實際權限。"
+      ]
+    ],
+    "proof": "實作筆記涵蓋 Wiki 讀取、來源核對與權限邊界；不將連線成功視為唯讀控制已完成。",
+    "idea": "串接既有 Wiki，讓 AI 搜尋並取得內容，再整理摘要、差異與交接索引。",
+    "experience": "文件分散於多個頁面，需要整理操作流程或比對說明的情境。",
+    "url": "https://hackmd.io/@jungkang/HkIsG-8SZe"
+  },
+  {
+    "title": "文稿 · 自動配音流程",
+    "description": "將 Notion 文稿接到語音生成與檔案保存，處理音訊格式與來源對應。",
+    "advantages": [
+      [
+        "串起文稿與音檔",
+        "從讀取文稿到保存音訊。"
+      ],
+      [
+        "確認格式可用",
+        "處理 PCM 與 WAV 的差異。"
+      ],
+      [
+        "保留來源對應",
+        "逐筆對應文稿與產生的檔案。"
+      ]
+    ],
+    "proof": "公開筆記記錄文稿讀取、語音服務、音訊格式與檔案保存的實作方式。",
+    "idea": "讀取 Notion 文稿，呼叫語音生成服務，整理音訊格式後存至 Google Drive。",
+    "experience": "把文字素材轉為配音，同時需要追蹤原稿與輸出檔案的工作。",
+    "url": "https://hackmd.io/@jungkang/SkW3D-3F-e"
+  },
+  {
+    "title": "監控 · 舊系統相容性",
+    "description": "在網站健康監控之外，加入貼近舊 Windows 使用環境的探針。",
+    "advantages": [
+      [
+        "從使用端觀察",
+        "補看舊 Windows 的連線表現。"
+      ],
+      [
+        "區分故障層次",
+        "分開看 HTTP、TLS 與回報失敗。"
+      ],
+      [
+        "整理維護方式",
+        "記錄監控清單、排程與版本管理。"
+      ]
+    ],
+    "proof": "文章說明一般 HTTP 監控之外，如何增加 Windows 探針作為另一個觀察來源。",
+    "idea": "搭配健康監控與 Windows 原生探針，分開記錄連線結果與回報狀態。",
+    "experience": "服務可開啟，但特定舊客戶端仍可能遇到連線或 TLS 相容問題的環境。",
+    "url": "https://hackmd.io/@jungkang/Bykq6CWlWg"
   }
 ];
 document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>{const i=Number(b.dataset.project),p=projectData[i];document.querySelector('#project-title').textContent=p.title;document.querySelector('#project-number').textContent=String(i+1).padStart(2,'0');document.querySelector('#project-description').textContent=p.description;document.querySelector('#project-idea').textContent=p.idea;document.querySelector('#project-experience').textContent=p.experience;const advantageList=document.querySelector('#project-advantages');advantageList.replaceChildren(...p.advantages.map(([title,body])=>{const item=document.createElement('div'),heading=document.createElement('h3'),text=document.createElement('p');heading.textContent=title;text.textContent=body;item.append(heading,text);return item;}));document.querySelector('#project-proof').textContent=p.proof;document.querySelector('#project-source').href=p.url;document.querySelector('#project-dialog').showModal();}));
