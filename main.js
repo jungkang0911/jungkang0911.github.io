@@ -7,24 +7,24 @@ reduced.addEventListener('change',e=>{paused=e.matches;syncMotion();});syncMotio
 function clock(){document.querySelector('#clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date());}clock();setInterval(clock,1000);
 const projectData=[
   {
-    "title": "YOLOv8 · OCR Pipeline",
-    "description": "先找到欄位，再讀取文字。把整張證件辨識拆成可控制、可驗證的處理流程。",
-    "idea": "以 YOLOv8 定位欄位並裁切，依欄位選擇 OCR 與格式驗證策略，降低版面與背景的干擾。",
-    "experience": "將影像品質、定位、文字辨識與驗證分層處理；遇到不確定結果時，進入重試、替代模型或人工確認。",
+    "title": "OCR · 文字辨識",
+    "description": "把證件圖片中的文字，整理成可以使用的資料，減少人工逐欄輸入。",
+    "idea": "先找出需要的欄位，再讀取並核對文字，減少背景與版面造成的干擾。",
+    "experience": "每個步驟都能檢查結果。遇到模糊或不確定的內容時，重新處理或交由人工確認。",
     "url": "https://hackmd.io/@jungkang/H13pVO4Jee"
   },
   {
-    "title": "LINE Auto · AI Agent",
-    "description": "把散落在 LINE 對話、圖片與影片中的商品資訊，整理進既有商品後台。",
-    "idea": "先由地端 OCR、Local LLM 與 Multimodal 清洗資料，再建立 Task，保留前一步已整理的資訊。",
-    "experience": "AI Agent 透過 MCP 領取工作，按需取得上下文。確認商品歸屬後，由 JEV 填入既有後台；仍不明確的情況交給人工。",
+    "title": "LINE · 商品整理",
+    "description": "把散落在 LINE 對話、圖片與影片中的商品資訊，整理進原本使用的商品後台。",
+    "idea": "先留下已確認的資訊，再從前後對話補足商品名稱、規格與價格，避免相同內容被反覆閱讀。",
+    "experience": "AI 協助比對商品與整理資訊，再接回既有上架流程。無法確認的內容則保留給人工判斷。",
     "url": "https://hackmd.io/@jungkang/B15S3AXqMx"
   },
   {
-    "title": "n8n · Workflow Systems",
-    "description": "當流程越來越多，如何把重複工作拆成可以共同使用的能力？",
-    "idea": "重新整理散落在多個 Workflow 裡的 OCR、AI 呼叫、Validation 與狀態處理。",
-    "experience": "以可重用的工作邊界，連接前端任務來源、AI Agent、模型服務與既有系統，讓流程更容易擴充與維護。",
+    "title": "流程自動化",
+    "description": "把反覆出現的工作整理成可重複使用的流程，減少每次都從頭處理。",
+    "idea": "將讀取資料、整理內容與核對結果等共通步驟拆出來，讓不同任務都能使用。",
+    "experience": "把資料來源、AI 助手與原本的系統接起來，讓工作狀態清楚，也方便日後調整與擴充。",
     "url": "https://hackmd.io/@jungkang/SkOdPDF5Ge"
   }
 ];
