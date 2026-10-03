@@ -14,3 +14,43 @@
 .project-promise{display:block;font-size:21px;font-weight:500;letter-spacing:-.6px;line-height:1.5;margin-top:20px}.project-evidence{border-top:1px solid var(--line);margin-top:20px;padding-top:16px;display:grid;gap:7px}.project-evidence b{font-size:20px;font-weight:500}.project-evidence span,.case-footnote{font-size:12px;line-height:1.7;color:#626859}.case-footnote{margin-top:24px;max-width:780px}.project-advantages{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:24px 0;border-top:1px solid var(--line)}.project-advantages h3{font-size:17px;font-weight:500;margin:0 0 10px}.project-advantages p{font-size:14px;margin:0}.project-proof{padding:16px 18px;background:#dce1d3;font-size:13px;line-height:1.8}#project-dialog{max-width:920px}#project-description{font-size:22px;line-height:1.5;letter-spacing:-.4px}#project-dialog h2{font-size:clamp(28px,4vw,48px)}@media(max-width:640px){.project-advantages{grid-template-columns:1fr;gap:20px}.project-promise{font-size:21px}#project-description{font-size:20px}}
 
 .project-advantages:has(>div:nth-child(4)){grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:640px){.project-advantages:has(>div:nth-child(4)){grid-template-columns:1fr}}
+
+/* Interactive surfaces retain the editorial palette. */
+.project-art,.project-info h3,.project-open,.design-archive img,.design-archive span{transition:transform .3s ease,background .25s ease,box-shadow .3s ease,color .25s ease}
+.project:is(:hover,:focus-visible) .project-art{transform:translateY(-4px);box-shadow:0 8px 0 var(--accent)}
+.project:is(:hover,:focus-visible) .project-info h3{color:#456219}
+.project:is(:hover,:focus-visible) .project-open{background:var(--accent);transform:translateY(0)}
+.text-link,.about-note a,.contact-social a,footer a,#motion-toggle{transition:background .25s ease,color .25s ease,box-shadow .25s ease}
+:is(.text-link,.about-note a,.contact-social a,footer a,#motion-toggle):is(:hover,:focus-visible){background:var(--accent);color:#243019;box-shadow:0 0 0 5px var(--accent);text-decoration:none}
+.text-link .line-icon{transition:translate .25s ease}
+.text-link:is(:hover,:focus-visible) .line-icon{translate:0 3px}
+.expertise summary{transition:background .25s ease,padding .25s ease}
+.expertise summary:is(:hover,:focus-visible){background:var(--accent);padding-left:12px;padding-right:12px}
+.expand{border-radius:50%;transition:background .25s ease,transform .25s ease}
+summary:is(:hover,:focus-visible) .expand{background:#22231f12;transform:rotate(90deg)}
+.design-archive a{display:block;text-decoration:none}
+.design-archive a:is(:hover,:focus-visible) img{transform:translateY(-4px);box-shadow:0 6px 0 var(--accent);border-color:#718643}
+.design-archive a:is(:hover,:focus-visible) span{color:#456219;transform:translateX(5px)}
+.pill,.contact-social button,dialog .close{transition:background .25s ease,color .25s ease,transform .25s ease,box-shadow .25s ease}
+.pill:is(:hover,:focus-visible){background:var(--paper);color:var(--ink);transform:translateY(-3px);box-shadow:0 5px 0 #22231f20}
+.contact-social button:is(:hover,:focus-visible),dialog .close:is(:hover,:focus-visible){background:var(--accent);color:var(--ink);transform:translateY(-2px)}
+dialog .close{border-radius:50%}
+.big-contact{transition:color .25s ease}
+.big-contact:is(:hover,:focus-visible){color:#456219}
+.big-contact:focus-visible .contact-star{transform:rotate(90deg)}
+/* Compact navigation accents, shared by pointer and keyboard interactions. */
+header nav{gap:8px}
+header nav a{position:relative;isolation:isolate;display:inline-flex;align-items:center;min-height:44px;padding:11px 15px;border-radius:5px;transition:color .22s ease,transform .22s ease;text-decoration:none}
+header nav a::before{content:"";position:absolute;inset:3px 0;background:var(--accent);border-radius:5px;z-index:-1;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.22,.7,.3,1)}
+header nav a::after{content:"";position:absolute;left:15px;right:15px;bottom:9px;height:1px;background:#354521;transform:scaleX(0);transform-origin:left;transition:transform .28s ease}
+header nav a:is(:hover,:focus-visible){color:#243019;transform:translateY(-2px);text-decoration:none}
+header nav a:is(:hover,:focus-visible)::before,header nav a:is(:hover,:focus-visible)::after{transform:scaleX(1)}
+header .logo{position:relative;isolation:isolate;width:fit-content;transition:color .22s ease;text-decoration:none}
+header .logo::after{content:"";position:absolute;left:-5px;right:-5px;bottom:-3px;height:12px;background:var(--accent);z-index:-1;transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+header .logo:is(:hover,:focus-visible)::after{transform:scaleX(1)}
+header .contact-link{min-height:44px;padding:11px 17px;border:1px solid #aeb5a3;border-radius:30px;gap:13px;transition:background .25s ease,border-color .25s ease,transform .25s ease,box-shadow .25s ease}
+header .contact-link .dot{width:7px;height:7px;transition:transform .25s ease,box-shadow .25s ease}
+header .contact-link:is(:hover,:focus-visible){background:var(--accent);border-color:#8ba84f;transform:translateY(-2px);box-shadow:0 4px 0 #22231f0d}
+header .contact-link:is(:hover,:focus-visible) .dot{transform:scale(1.15);box-shadow:0 0 0 4px #24301914}
+header nav a:active,header .contact-link:active{transform:translateY(0);background:var(--accent)}
+@media(max-width:640px){header{gap:10px}header nav{gap:0}header nav a{padding:10px;min-height:44px}header nav a::after{left:10px;right:10px}header nav a:first-child{display:none}header .contact-link{padding:10px 12px;gap:9px}}
