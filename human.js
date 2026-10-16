@@ -44,4 +44,4 @@ function drawHuman(){if(!pw||!ph||!humanImage.complete||!humanImage.naturalWidth
 }
 new ResizeObserver(entries=>{const r=entries[0].contentRect,d=Math.min(devicePixelRatio||1,2);pw=r.width;ph=r.height;portrait.width=Math.round(pw*d);portrait.height=Math.round(ph*d);pen.setTransform(d,0,0,d,0,0);drawHuman();}).observe(portrait);
 function humanFrame(){if(time!==lastDraw){lastDraw=time;drawHuman();}requestAnimationFrame(humanFrame);}requestAnimationFrame(humanFrame);
-document.querySelector('#copy-email').addEventListener('click',async()=>{const status=document.querySelector('#copy-status');try{await navigator.clipboard.writeText('jungkang0911@gmail.com');status.textContent='Email 已複製';}catch{status.textContent='請選取上方 Email 複製';}});
+document.querySelector('#copy-email').addEventListener('click',async()=>{const status=document.querySelector('#copy-status');try{await navigator.clipboard.writeText('jungkang@aing.tw');status.textContent='Email 已複製';}catch{status.textContent='請選取上方 Email 複製';}});
